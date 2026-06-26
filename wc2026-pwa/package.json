@@ -1,0 +1,13 @@
+{
+  "name": "wc2026-live-bracket",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "World Cup 2026 live group + knockout PWA bracket",
+  "scripts": {
+    "update": "node scripts/update.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
