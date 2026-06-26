@@ -1,0 +1,910 @@
+{
+ "updated": "2026-06-26T12:00:00Z",
+ "stage": "Group stage finishing (Groups G–L decided 26–27 Jun) · Knockouts begin 28 Jun",
+ "teams": {
+  "mx": "Mexico",
+  "za": "South Africa",
+  "kr": "South Korea",
+  "cz": "Czechia",
+  "ca": "Canada",
+  "ch": "Switzerland",
+  "qa": "Qatar",
+  "ba": "Bosnia & Herzegovina",
+  "br": "Brazil",
+  "ma": "Morocco",
+  "gb-sct": "Scotland",
+  "ht": "Haiti",
+  "us": "USA",
+  "py": "Paraguay",
+  "au": "Australia",
+  "tr": "Türkiye",
+  "de": "Germany",
+  "ec": "Ecuador",
+  "ci": "Ivory Coast",
+  "cw": "Curaçao",
+  "nl": "Netherlands",
+  "jp": "Japan",
+  "se": "Sweden",
+  "tn": "Tunisia",
+  "eg": "Egypt",
+  "be": "Belgium",
+  "ir": "Iran",
+  "nz": "New Zealand",
+  "es": "Spain",
+  "uy": "Uruguay",
+  "cv": "Cape Verde",
+  "sa": "Saudi Arabia",
+  "fr": "France",
+  "no": "Norway",
+  "sn": "Senegal",
+  "iq": "Iraq",
+  "ar": "Argentina",
+  "at": "Austria",
+  "dz": "Algeria",
+  "jo": "Jordan",
+  "co": "Colombia",
+  "pt": "Portugal",
+  "cd": "DR Congo",
+  "uz": "Uzbekistan",
+  "gb-eng": "England",
+  "hr": "Croatia",
+  "gh": "Ghana",
+  "pa": "Panama"
+ },
+ "groups": {
+  "A": {
+   "teams": [
+    "mx",
+    "za",
+    "kr",
+    "cz"
+   ],
+   "games": [
+    {
+     "a": "mx",
+     "b": "za",
+     "sa": 2,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-11T15:00:00-04:00"
+    },
+    {
+     "a": "kr",
+     "b": "cz",
+     "sa": 2,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-11T18:00:00-04:00"
+    },
+    {
+     "a": "cz",
+     "b": "za",
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-18T12:00:00-04:00"
+    },
+    {
+     "a": "mx",
+     "b": "kr",
+     "sa": 1,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-18T21:00:00-04:00"
+    },
+    {
+     "a": "cz",
+     "b": "mx",
+     "sa": 0,
+     "sb": 3,
+     "st": "ft",
+     "dt": "2026-06-24T21:00:00-04:00"
+    },
+    {
+     "a": "za",
+     "b": "kr",
+     "sa": 1,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-24T21:00:00-04:00"
+    }
+   ]
+  },
+  "B": {
+   "teams": [
+    "ca",
+    "ch",
+    "qa",
+    "ba"
+   ],
+   "games": [
+    {
+     "a": "ca",
+     "b": "ba",
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-12T15:00:00-04:00"
+    },
+    {
+     "a": "qa",
+     "b": "ch",
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-13T12:00:00-04:00"
+    },
+    {
+     "a": "ch",
+     "b": "ba",
+     "sa": 4,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-18T15:00:00-04:00"
+    },
+    {
+     "a": "ca",
+     "b": "qa",
+     "sa": 6,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-18T18:00:00-04:00"
+    },
+    {
+     "a": "ch",
+     "b": "ca",
+     "sa": 2,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-24T15:00:00-04:00"
+    },
+    {
+     "a": "ba",
+     "b": "qa",
+     "sa": 3,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-24T15:00:00-04:00"
+    }
+   ]
+  },
+  "C": {
+   "teams": [
+    "br",
+    "ma",
+    "gb-sct",
+    "ht"
+   ],
+   "games": [
+    {
+     "a": "br",
+     "b": "ma",
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-13T15:00:00-04:00"
+    },
+    {
+     "a": "ht",
+     "b": "gb-sct",
+     "sa": 0,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-13T18:00:00-04:00"
+    },
+    {
+     "a": "gb-sct",
+     "b": "ma",
+     "sa": 0,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-19T12:00:00-04:00"
+    },
+    {
+     "a": "br",
+     "b": "ht",
+     "sa": 3,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-19T18:00:00-04:00"
+    },
+    {
+     "a": "gb-sct",
+     "b": "br",
+     "sa": 0,
+     "sb": 3,
+     "st": "ft",
+     "dt": "2026-06-24T18:00:00-04:00"
+    },
+    {
+     "a": "ma",
+     "b": "ht",
+     "sa": 4,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-24T18:00:00-04:00"
+    }
+   ]
+  },
+  "D": {
+   "teams": [
+    "us",
+    "py",
+    "au",
+    "tr"
+   ],
+   "games": [
+    {
+     "a": "us",
+     "b": "py",
+     "sa": 4,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-12T21:00:00-04:00"
+    },
+    {
+     "a": "au",
+     "b": "tr",
+     "sa": 2,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-14T12:00:00-04:00"
+    },
+    {
+     "a": "us",
+     "b": "au",
+     "sa": 2,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-19T15:00:00-04:00"
+    },
+    {
+     "a": "tr",
+     "b": "py",
+     "sa": 0,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-19T21:00:00-04:00"
+    },
+    {
+     "a": "tr",
+     "b": "us",
+     "sa": 3,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-25T22:00:00-04:00"
+    },
+    {
+     "a": "py",
+     "b": "au",
+     "sa": 0,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-25T22:00:00-04:00"
+    }
+   ]
+  },
+  "E": {
+   "teams": [
+    "de",
+    "ec",
+    "ci",
+    "cw"
+   ],
+   "games": [
+    {
+     "a": "de",
+     "b": "cw",
+     "sa": 7,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-14T15:00:00-04:00"
+    },
+    {
+     "a": "ci",
+     "b": "ec",
+     "sa": 1,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-14T18:00:00-04:00"
+    },
+    {
+     "a": "de",
+     "b": "ci",
+     "sa": 2,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-20T15:00:00-04:00"
+    },
+    {
+     "a": "ec",
+     "b": "cw",
+     "sa": 0,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-20T18:00:00-04:00"
+    },
+    {
+     "a": "cw",
+     "b": "ci",
+     "sa": 0,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-25T16:00:00-04:00"
+    },
+    {
+     "a": "ec",
+     "b": "de",
+     "sa": 2,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-25T16:00:00-04:00"
+    }
+   ]
+  },
+  "F": {
+   "teams": [
+    "nl",
+    "jp",
+    "se",
+    "tn"
+   ],
+   "games": [
+    {
+     "a": "nl",
+     "b": "jp",
+     "sa": 2,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-14T18:00:00-04:00"
+    },
+    {
+     "a": "se",
+     "b": "tn",
+     "sa": 5,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-14T21:00:00-04:00"
+    },
+    {
+     "a": "nl",
+     "b": "se",
+     "sa": 5,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-20T12:00:00-04:00"
+    },
+    {
+     "a": "tn",
+     "b": "jp",
+     "sa": 0,
+     "sb": 4,
+     "st": "ft",
+     "dt": "2026-06-21T00:00:00-04:00"
+    },
+    {
+     "a": "jp",
+     "b": "se",
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-25T19:00:00-04:00"
+    },
+    {
+     "a": "tn",
+     "b": "nl",
+     "sa": 1,
+     "sb": 3,
+     "st": "ft",
+     "dt": "2026-06-25T19:00:00-04:00"
+    }
+   ]
+  },
+  "G": {
+   "teams": [
+    "eg",
+    "be",
+    "ir",
+    "nz"
+   ],
+   "games": [
+    {
+     "a": "be",
+     "b": "eg",
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-15T15:00:00-04:00"
+    },
+    {
+     "a": "ir",
+     "b": "nz",
+     "sa": 2,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-15T21:00:00-04:00"
+    },
+    {
+     "a": "be",
+     "b": "ir",
+     "sa": 0,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-21T15:00:00-04:00"
+    },
+    {
+     "a": "nz",
+     "b": "eg",
+     "sa": 1,
+     "sb": 3,
+     "st": "ft",
+     "dt": "2026-06-21T21:00:00-04:00"
+    },
+    {
+     "a": "eg",
+     "b": "ir",
+     "st": "sched",
+     "dt": "2026-06-26T23:00:00-04:00"
+    },
+    {
+     "a": "nz",
+     "b": "be",
+     "st": "sched",
+     "dt": "2026-06-26T23:00:00-04:00"
+    }
+   ]
+  },
+  "H": {
+   "teams": [
+    "es",
+    "uy",
+    "cv",
+    "sa"
+   ],
+   "games": [
+    {
+     "a": "es",
+     "b": "cv",
+     "sa": 0,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-15T12:00:00-04:00"
+    },
+    {
+     "a": "sa",
+     "b": "uy",
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-15T18:00:00-04:00"
+    },
+    {
+     "a": "es",
+     "b": "sa",
+     "sa": 4,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-21T12:00:00-04:00"
+    },
+    {
+     "a": "uy",
+     "b": "cv",
+     "sa": 2,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-21T18:00:00-04:00"
+    },
+    {
+     "a": "cv",
+     "b": "sa",
+     "st": "sched",
+     "dt": "2026-06-26T20:00:00-04:00"
+    },
+    {
+     "a": "uy",
+     "b": "es",
+     "st": "sched",
+     "dt": "2026-06-26T20:00:00-04:00"
+    }
+   ]
+  },
+  "I": {
+   "teams": [
+    "fr",
+    "no",
+    "sn",
+    "iq"
+   ],
+   "games": [
+    {
+     "a": "fr",
+     "b": "sn",
+     "sa": 3,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-16T12:00:00-04:00"
+    },
+    {
+     "a": "iq",
+     "b": "no",
+     "sa": 1,
+     "sb": 4,
+     "st": "ft",
+     "dt": "2026-06-16T15:00:00-04:00"
+    },
+    {
+     "a": "fr",
+     "b": "iq",
+     "sa": 3,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-22T12:00:00-04:00"
+    },
+    {
+     "a": "no",
+     "b": "sn",
+     "sa": 3,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-22T18:00:00-04:00"
+    },
+    {
+     "a": "no",
+     "b": "fr",
+     "st": "sched",
+     "dt": "2026-06-26T15:00:00-04:00"
+    },
+    {
+     "a": "sn",
+     "b": "iq",
+     "st": "sched",
+     "dt": "2026-06-26T15:00:00-04:00"
+    }
+   ]
+  },
+  "J": {
+   "teams": [
+    "ar",
+    "at",
+    "dz",
+    "jo"
+   ],
+   "games": [
+    {
+     "a": "ar",
+     "b": "dz",
+     "sa": 3,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-16T18:00:00-04:00"
+    },
+    {
+     "a": "at",
+     "b": "jo",
+     "sa": 3,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-17T12:00:00-04:00"
+    },
+    {
+     "a": "ar",
+     "b": "at",
+     "sa": 2,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-22T15:00:00-04:00"
+    },
+    {
+     "a": "jo",
+     "b": "dz",
+     "sa": 1,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-22T21:00:00-04:00"
+    },
+    {
+     "a": "dz",
+     "b": "at",
+     "st": "sched",
+     "dt": "2026-06-27T22:00:00-04:00"
+    },
+    {
+     "a": "jo",
+     "b": "ar",
+     "st": "sched",
+     "dt": "2026-06-27T22:00:00-04:00"
+    }
+   ]
+  },
+  "K": {
+   "teams": [
+    "co",
+    "pt",
+    "cd",
+    "uz"
+   ],
+   "games": [
+    {
+     "a": "pt",
+     "b": "cd",
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-17T14:00:00-04:00"
+    },
+    {
+     "a": "uz",
+     "b": "co",
+     "sa": 1,
+     "sb": 3,
+     "st": "ft",
+     "dt": "2026-06-17T21:00:00-04:00"
+    },
+    {
+     "a": "pt",
+     "b": "uz",
+     "sa": 5,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-23T12:00:00-04:00"
+    },
+    {
+     "a": "co",
+     "b": "cd",
+     "sa": 1,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-23T21:00:00-04:00"
+    },
+    {
+     "a": "co",
+     "b": "pt",
+     "st": "sched",
+     "dt": "2026-06-27T19:30:00-04:00"
+    },
+    {
+     "a": "cd",
+     "b": "uz",
+     "st": "sched",
+     "dt": "2026-06-27T19:30:00-04:00"
+    }
+   ]
+  },
+  "L": {
+   "teams": [
+    "gb-eng",
+    "hr",
+    "gh",
+    "pa"
+   ],
+   "games": [
+    {
+     "a": "gb-eng",
+     "b": "hr",
+     "sa": 4,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-17T15:00:00-04:00"
+    },
+    {
+     "a": "gh",
+     "b": "pa",
+     "sa": 1,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-17T18:00:00-04:00"
+    },
+    {
+     "a": "gb-eng",
+     "b": "gh",
+     "sa": 0,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-23T15:00:00-04:00"
+    },
+    {
+     "a": "pa",
+     "b": "hr",
+     "sa": 0,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-23T18:00:00-04:00"
+    },
+    {
+     "a": "pa",
+     "b": "gb-eng",
+     "st": "sched",
+     "dt": "2026-06-27T17:00:00-04:00"
+    },
+    {
+     "a": "hr",
+     "b": "gh",
+     "st": "sched",
+     "dt": "2026-06-27T17:00:00-04:00"
+    }
+   ]
+  }
+ },
+ "matches": {
+  "73": {
+   "status": "scheduled",
+   "a": {
+    "code": "za",
+    "name": "South Africa"
+   },
+   "b": {
+    "code": "ca",
+    "name": "Canada"
+   }
+  },
+  "74": {
+   "status": "scheduled",
+   "a": {
+    "code": "de",
+    "name": "Germany"
+   }
+  },
+  "75": {
+   "status": "scheduled",
+   "a": {
+    "code": "nl",
+    "name": "Netherlands"
+   },
+   "b": {
+    "code": "ma",
+    "name": "Morocco"
+   }
+  },
+  "76": {
+   "status": "scheduled",
+   "a": {
+    "code": "br",
+    "name": "Brazil"
+   },
+   "b": {
+    "code": "jp",
+    "name": "Japan"
+   }
+  },
+  "77": {
+   "status": "scheduled",
+   "a": {
+    "code": "fr",
+    "name": "France",
+    "prov": true
+   }
+  },
+  "78": {
+   "status": "scheduled",
+   "a": {
+    "code": "ci",
+    "name": "Ivory Coast"
+   }
+  },
+  "79": {
+   "status": "scheduled",
+   "a": {
+    "code": "mx",
+    "name": "Mexico"
+   }
+  },
+  "80": {
+   "status": "scheduled",
+   "a": {
+    "code": "gb-eng",
+    "name": "England",
+    "prov": true
+   }
+  },
+  "81": {
+   "status": "scheduled",
+   "a": {
+    "code": "us",
+    "name": "USA"
+   },
+   "b": {
+    "code": "ba",
+    "name": "Bosnia & Herzegovina",
+    "prov": true
+   }
+  },
+  "82": {
+   "status": "scheduled",
+   "a": {
+    "code": "eg",
+    "name": "Egypt",
+    "prov": true
+   }
+  },
+  "83": {
+   "status": "scheduled"
+  },
+  "84": {
+   "status": "scheduled",
+   "a": {
+    "code": "es",
+    "name": "Spain",
+    "prov": true
+   }
+  },
+  "85": {
+   "status": "scheduled",
+   "a": {
+    "code": "ch",
+    "name": "Switzerland"
+   }
+  },
+  "86": {
+   "status": "scheduled",
+   "a": {
+    "code": "ar",
+    "name": "Argentina",
+    "prov": true
+   }
+  },
+  "87": {
+   "status": "scheduled",
+   "a": {
+    "code": "co",
+    "name": "Colombia",
+    "prov": true
+   }
+  },
+  "88": {
+   "status": "scheduled",
+   "a": {
+    "code": "au",
+    "name": "Australia",
+    "prov": true
+   }
+  },
+  "89": {
+   "status": "scheduled"
+  },
+  "90": {
+   "status": "scheduled"
+  },
+  "91": {
+   "status": "scheduled"
+  },
+  "92": {
+   "status": "scheduled"
+  },
+  "93": {
+   "status": "scheduled"
+  },
+  "94": {
+   "status": "scheduled"
+  },
+  "95": {
+   "status": "scheduled"
+  },
+  "96": {
+   "status": "scheduled"
+  },
+  "97": {
+   "status": "scheduled"
+  },
+  "98": {
+   "status": "scheduled"
+  },
+  "99": {
+   "status": "scheduled"
+  },
+  "100": {
+   "status": "scheduled"
+  },
+  "101": {
+   "status": "scheduled"
+  },
+  "102": {
+   "status": "scheduled"
+  },
+  "103": {
+   "status": "scheduled"
+  },
+  "104": {
+   "status": "scheduled"
+  }
+ }
+}

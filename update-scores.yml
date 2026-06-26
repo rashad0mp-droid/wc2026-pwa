@@ -1,0 +1,56 @@
+name: Update World Cup scores
+
+# HOW THIS MAKES THE APP SELF-UPDATING:
+# 1. This workflow runs on a schedule (every 10 min below).
+# 2. update.mjs first checks the fixture clock — it ONLY spends an API call when a
+#    match is actually in its live window, so you stay well under the 100/day free tier.
+# 3. If scores changed, it commits data/matches.json back to the repo.
+# 4. Vercel sees the push and auto-redeploys — so the live site updates itself.
+#
+# A manual run (workflow_dispatch) sets FORCE=1 so it fetches even between matches —
+# handy for testing your API key.
+#
+# SETUP (one time):
+#   Repo → Settings → Secrets and variables → Actions → New repository secret
+#     Name:  APIFOOTBALL_KEY      Value: <your api-sports.io key>
+#   Also: Settings → Actions → General → Workflow permissions → "Read and write permissions".
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'   # every 10 minutes (UTC). GitHub may delay during busy periods.
+  workflow_dispatch: {}        # lets you also run it by hand from the Actions tab
+
+# avoid overlapping runs
+concurrency:
+  group: update-scores
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch & map scores
+        env:
+          APIFOOTBALL_KEY: ${{ secrets.APIFOOTBALL_KEY }}
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
+        run: node scripts/update.mjs
+
+      - name: Commit if changed
+        run: |
+          if [[ -n "$(git status --porcelain data/matches.json)" ]]; then
+            git config user.name  "wc26-bot"
+            git config user.email "actions@github.com"
+            git add data/matches.json
+            git commit -m "live: update scores [skip ci]"
+            git push
+          else
+            echo "Nothing to commit."
+          fi

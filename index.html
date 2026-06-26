@@ -69,7 +69,7 @@
   .sub b{color:var(--ink);font-weight:600}
 
   /* tabs */
-  .tabs{display:flex;gap:5px;background:var(--panel);border:1px solid var(--card-bd);border-radius:12px;padding:4px;margin:16px 0 14px;max-width:360px}
+  .tabs{display:flex;gap:5px;background:var(--panel);border:1px solid var(--card-bd);border-radius:12px;padding:4px;margin:16px 0 14px;max-width:460px}
   .tab{flex:1;border:0;background:transparent;color:var(--muted);font-weight:700;font-size:13.5px;padding:9px 8px;border-radius:9px;cursor:pointer;font-family:'Inter'}
   .tab.active{background:var(--grad);color:#0a0e1a}
 
@@ -110,11 +110,41 @@
   .fx.live{border-color:rgba(255,45,118,.5)}
   .fx.live .sc{color:var(--live)}
 
+  /* ===== TODAY / FIXTURES ===== */
+  #todayView{display:none}
+  .dayhead{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;margin:2px 0 14px}
+  .dayhead .dtitle{font-family:'Anton';font-size:21px}
+  .dayhead .dcount{font-family:'JetBrains Mono';font-size:11px;color:var(--muted2)}
+  .dayhead .browse{margin-left:auto;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--card-bd2);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:600;cursor:pointer}
+  .dayhead .browse:hover{border-color:#7b8be0}
+  .fcard{display:flex;flex-direction:column;gap:7px;background:linear-gradient(180deg,#222c5a,#181f43);border:1px solid #3c4a8e;border-radius:13px;padding:11px 13px;margin-bottom:10px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+  .fcard:hover{border-color:#7b8be0}
+  .fctop{display:flex;align-items:center;gap:8px}
+  .fcomp{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:#0a0e1a;background:var(--grad);border-radius:5px;padding:2px 7px;font-weight:700;white-space:nowrap}
+  .fven{font-size:11px;color:var(--muted2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fchip{margin-left:auto;font-family:'JetBrains Mono';font-size:12px;font-weight:700;white-space:nowrap}
+  .fchip.up{color:var(--cyan)} .fchip.ft{color:var(--grass)} .fchip.live{color:var(--live)}
+  .fteam{display:flex;align-items:center;gap:9px}
+  .fteam .flag{width:24px;height:16px}
+  .fteam .fnm{font-size:14px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fteam.ph .fnm{color:#9fa9dd;font-style:italic;font-weight:500;font-size:12.5px}
+  .fteam .fsc{margin-left:auto;font-family:'JetBrains Mono';font-weight:700;font-size:15px;color:#fff}
+  .fteam.w .fnm,.fteam.w .fsc{color:var(--gold)}
+  .fteam.l .fnm,.fteam.l .fsc{color:var(--muted)}
+  .fempty{text-align:center;color:var(--muted2);padding:34px 10px;font-size:13px}
+  .dlist{display:flex;flex-direction:column;gap:7px;max-height:62vh;overflow:auto}
+  .drow{display:flex;align-items:center;gap:10px;border:1px solid var(--card-bd);background:rgba(255,255,255,.02);border-radius:11px;padding:11px 13px;cursor:pointer;color:inherit;text-align:left}
+  .drow:hover{border-color:#7b8be0}
+  .drow.sel{border-color:var(--gold);background:rgba(255,207,92,.08)}
+  .drow .dd{font-weight:700;font-size:14px}
+  .drow .dtoday{font-family:'JetBrains Mono';font-size:9px;color:#0a0e1a;background:var(--cyan);border-radius:5px;padding:2px 6px;font-weight:700}
+  .drow .dc{margin-left:auto;font-family:'JetBrains Mono';font-size:11px;color:var(--muted)}
+
   /* ===== BRACKET ===== */
   .legend{display:flex;flex-wrap:wrap;gap:7px 14px;font-size:12px;color:var(--muted);margin:0 0 11px}
   .lg{display:inline-flex;align-items:center;gap:6px}
   .lg .sw{width:11px;height:11px;border-radius:3px}
-  .sw.conf{background:var(--grass)} .sw.like{background:var(--gold)} .sw.tbd{background:var(--muted2);opacity:.6} .sw.win{background:var(--gold)}
+  .sw.conf{background:var(--grass)} .sw.like{background:var(--gold)} .sw.tbd{background:var(--muted2);opacity:.6} .sw.win{background:var(--grass)}
   .brtools{display:flex;align-items:center;gap:10px;margin-bottom:10px}
   .spacer{flex:1}
   .zoom{display:flex;gap:3px;background:var(--panel);border:1px solid var(--card-bd);border-radius:10px;padding:3px}
@@ -131,10 +161,11 @@
     background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;text-align:center;padding:6px 0;font-weight:700}
   .rlabel small{display:block;color:var(--muted2);font-size:9.5px;letter-spacing:.08em;margin-top:2px;-webkit-text-fill-color:var(--muted2)}
   .grid{display:grid;gap:46px;position:relative;z-index:2}
-  .match{position:relative;z-index:3;align-self:center;background:linear-gradient(180deg,var(--card),#0f1530);
-    border:1px solid var(--card-bd);border-radius:var(--radius);padding:6px 8px 7px;cursor:pointer;
-    transition:transform .12s,border-color .12s,box-shadow .12s;box-shadow:0 2px 8px rgba(0,0,0,.35)}
-  .match:hover{border-color:var(--card-bd2);box-shadow:0 0 0 1px rgba(123,91,255,.3),0 6px 18px rgba(0,0,0,.5);transform:translateY(-1px)}
+  .match{position:relative;z-index:3;align-self:center;background:linear-gradient(180deg,#2a3568,#1b2348);
+    border:1px solid #46559e;border-radius:var(--radius);padding:6px 8px 7px;cursor:pointer;
+    transition:transform .12s,border-color .12s,box-shadow .12s;
+    box-shadow:0 6px 16px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.09)}
+  .match:hover{border-color:#7b8be0;box-shadow:0 0 0 1px rgba(123,91,255,.45),0 10px 24px rgba(0,0,0,.6);transform:translateY(-1px)}
   .match:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
   .match.final{border-color:var(--gold);box-shadow:0 0 0 1px rgba(255,207,92,.3),0 8px 22px rgba(0,0,0,.55)}
   .mtop{display:flex;align-items:center;gap:6px;margin-bottom:5px}
@@ -143,12 +174,12 @@
   .mdate.live{color:var(--live);font-weight:700}
   .mdate.ft{color:var(--grass)}
   .side{display:flex;align-items:center;gap:7px;padding:3px 2px;border-radius:6px}
-  .side+.side{margin-top:1px;border-top:1px dashed var(--card-bd)}
+  .side+.side{margin-top:1px;border-top:1px dashed rgba(255,255,255,.16)}
   .flag{width:22px;height:15px;border-radius:2.5px;object-fit:cover;flex:0 0 auto;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
   .flag.emo{display:grid;place-items:center;font-size:15px;background:#0e1530}
-  .nm{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .side.ph .nm{font-weight:500;color:var(--muted);font-style:italic;font-size:11px}
-  .side.win .nm{font-weight:600;color:#cfd6ff;font-size:11px}
+  .nm{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#ffffff}
+  .side.ph .nm{font-weight:500;color:#9fa9dd;font-style:italic;font-size:11px}
+  .side.win .nm{font-weight:600;color:#dde3ff;font-size:11px}
   .side .sc{margin-left:auto;font-family:'JetBrains Mono';font-weight:700;font-size:13px}
   .side.w .nm{color:var(--gold)} .side.w .sc{color:var(--gold)}
   .side.l .nm{color:var(--muted)} .side.l .sc{color:var(--muted2)}
@@ -226,15 +257,19 @@
   <p class="sub" id="stageLine">Every group and the full knockout branch diagram. <b>Tap any match</b> for its kick-off in <b>Indian time (IST)</b>.</p>
 
   <div class="tabs" role="tablist">
-    <button class="tab" id="tabGroups" role="tab">Group Stage</button>
-    <button class="tab active" id="tabBracket" role="tab">Knockout Bracket</button>
+    <button class="tab active" id="tabToday" role="tab">Today</button>
+    <button class="tab" id="tabGroups" role="tab">Groups</button>
+    <button class="tab" id="tabBracket" role="tab">Bracket</button>
   </div>
+
+  <!-- TODAY / FIXTURES -->
+  <section id="todayView"></section>
 
   <!-- GROUPS -->
   <section id="groupsView" style="display:none"></section>
 
   <!-- BRACKET -->
-  <section id="bracketView">
+  <section id="bracketView" style="display:none">
     <div class="legend">
       <span class="lg"><span class="sw win"></span> Winner / qualified</span>
       <span class="lg"><span class="sw like"></span> Group leader · to confirm</span>
@@ -275,7 +310,7 @@
 /* ===================== EMBEDDED FALLBACK (live file overrides this) ===================== */
 const FALLBACK = /*__SEED__*/{
  "updated": "2026-06-26T12:00:00Z",
- "stage": "Group stage finishing (ends 27 Jun) · Knockouts begin 28 Jun",
+ "stage": "Group stage finishing (Groups G–L decided 26–27 Jun) · Knockouts begin 28 Jun",
  "teams": {
   "mx": "Mexico",
   "za": "South Africa",
@@ -338,50 +373,50 @@ const FALLBACK = /*__SEED__*/{
     {
      "a": "mx",
      "b": "za",
-     "st": "ft",
      "sa": 2,
      "sb": 0,
-     "day": "2026-06-11"
+     "st": "ft",
+     "dt": "2026-06-11T15:00:00-04:00"
     },
     {
      "a": "kr",
      "b": "cz",
-     "st": "ft",
      "sa": 2,
      "sb": 1,
-     "day": "2026-06-11"
-    },
-    {
-     "a": "mx",
-     "b": "kr",
      "st": "ft",
-     "sa": 1,
-     "sb": 0,
-     "day": "2026-06-18"
+     "dt": "2026-06-11T18:00:00-04:00"
     },
     {
      "a": "cz",
      "b": "za",
-     "st": "ft",
      "sa": 1,
      "sb": 1,
-     "day": "2026-06-18"
+     "st": "ft",
+     "dt": "2026-06-18T12:00:00-04:00"
     },
     {
      "a": "mx",
-     "b": "cz",
-     "st": "ft",
-     "sa": 3,
+     "b": "kr",
+     "sa": 1,
      "sb": 0,
-     "day": "2026-06-24"
+     "st": "ft",
+     "dt": "2026-06-18T21:00:00-04:00"
+    },
+    {
+     "a": "cz",
+     "b": "mx",
+     "sa": 0,
+     "sb": 3,
+     "st": "ft",
+     "dt": "2026-06-24T21:00:00-04:00"
     },
     {
      "a": "za",
      "b": "kr",
-     "st": "ft",
      "sa": 1,
      "sb": 0,
-     "day": "2026-06-24"
+     "st": "ft",
+     "dt": "2026-06-24T21:00:00-04:00"
     }
    ]
   },
@@ -396,50 +431,50 @@ const FALLBACK = /*__SEED__*/{
     {
      "a": "ca",
      "b": "ba",
-     "st": "ft",
      "sa": 1,
      "sb": 1,
-     "day": "2026-06-12"
+     "st": "ft",
+     "dt": "2026-06-12T15:00:00-04:00"
     },
     {
-     "a": "ch",
-     "b": "qa",
-     "st": "ft",
+     "a": "qa",
+     "b": "ch",
      "sa": 1,
      "sb": 1,
-     "day": "2026-06-13"
+     "st": "ft",
+     "dt": "2026-06-13T12:00:00-04:00"
     },
     {
      "a": "ch",
      "b": "ba",
-     "st": "ft",
      "sa": 4,
      "sb": 1,
-     "day": "2026-06-18"
+     "st": "ft",
+     "dt": "2026-06-18T15:00:00-04:00"
     },
     {
      "a": "ca",
      "b": "qa",
-     "st": "ft",
      "sa": 6,
      "sb": 0,
-     "day": "2026-06-18"
+     "st": "ft",
+     "dt": "2026-06-18T18:00:00-04:00"
     },
     {
      "a": "ch",
      "b": "ca",
-     "st": "ft",
      "sa": 2,
      "sb": 1,
-     "day": "2026-06-24"
+     "st": "ft",
+     "dt": "2026-06-24T15:00:00-04:00"
     },
     {
      "a": "ba",
      "b": "qa",
-     "st": "ft",
      "sa": 3,
      "sb": 1,
-     "day": "2026-06-24"
+     "st": "ft",
+     "dt": "2026-06-24T15:00:00-04:00"
     }
    ]
   },
@@ -454,50 +489,50 @@ const FALLBACK = /*__SEED__*/{
     {
      "a": "br",
      "b": "ma",
-     "st": "ft",
      "sa": 1,
      "sb": 1,
-     "day": "2026-06-13"
+     "st": "ft",
+     "dt": "2026-06-13T15:00:00-04:00"
+    },
+    {
+     "a": "ht",
+     "b": "gb-sct",
+     "sa": 0,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-13T18:00:00-04:00"
     },
     {
      "a": "gb-sct",
-     "b": "ht",
+     "b": "ma",
+     "sa": 0,
+     "sb": 1,
      "st": "ft",
-     "sa": 1,
-     "sb": 0,
-     "day": "2026-06-13"
-    },
-    {
-     "a": "ma",
-     "b": "gb-sct",
-     "st": "ft",
-     "sa": 1,
-     "sb": 0,
-     "day": "2026-06-19"
+     "dt": "2026-06-19T12:00:00-04:00"
     },
     {
      "a": "br",
      "b": "ht",
-     "st": "ft",
      "sa": 3,
      "sb": 0,
-     "day": "2026-06-19"
+     "st": "ft",
+     "dt": "2026-06-19T18:00:00-04:00"
     },
     {
-     "a": "br",
-     "b": "gb-sct",
+     "a": "gb-sct",
+     "b": "br",
+     "sa": 0,
+     "sb": 3,
      "st": "ft",
-     "sa": 3,
-     "sb": 0,
-     "day": "2026-06-24"
+     "dt": "2026-06-24T18:00:00-04:00"
     },
     {
      "a": "ma",
      "b": "ht",
-     "st": "ft",
      "sa": 4,
      "sb": 2,
-     "day": "2026-06-24"
+     "st": "ft",
+     "dt": "2026-06-24T18:00:00-04:00"
     }
    ]
   },
@@ -512,44 +547,50 @@ const FALLBACK = /*__SEED__*/{
     {
      "a": "us",
      "b": "py",
-     "st": "ft",
      "sa": 4,
      "sb": 1,
-     "day": "2026-06-12"
+     "st": "ft",
+     "dt": "2026-06-12T21:00:00-04:00"
     },
     {
      "a": "au",
      "b": "tr",
-     "st": "ft",
      "sa": 2,
      "sb": 0,
-     "day": "2026-06-13"
+     "st": "ft",
+     "dt": "2026-06-14T12:00:00-04:00"
     },
     {
      "a": "us",
      "b": "au",
-     "st": "ft",
      "sa": 2,
      "sb": 0,
-     "day": "2026-06-19"
+     "st": "ft",
+     "dt": "2026-06-19T15:00:00-04:00"
     },
     {
      "a": "tr",
      "b": "py",
-     "st": "sched",
-     "day": "2026-06-19"
+     "sa": 0,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-19T21:00:00-04:00"
     },
     {
      "a": "tr",
      "b": "us",
-     "st": "sched",
-     "day": "2026-06-26"
+     "sa": 3,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-25T22:00:00-04:00"
     },
     {
      "a": "py",
      "b": "au",
-     "st": "sched",
-     "day": "2026-06-26"
+     "sa": 0,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-25T22:00:00-04:00"
     }
    ]
   },
@@ -564,44 +605,50 @@ const FALLBACK = /*__SEED__*/{
     {
      "a": "de",
      "b": "cw",
-     "st": "ft",
      "sa": 7,
      "sb": 1,
-     "day": "2026-06-14"
-    },
-    {
-     "a": "ec",
-     "b": "ci",
-     "st": "sched",
-     "day": "2026-06-14"
-    },
-    {
-     "a": "ec",
-     "b": "de",
      "st": "ft",
+     "dt": "2026-06-14T15:00:00-04:00"
+    },
+    {
+     "a": "ci",
+     "b": "ec",
+     "sa": 1,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-14T18:00:00-04:00"
+    },
+    {
+     "a": "de",
+     "b": "ci",
      "sa": 2,
      "sb": 1,
-     "day": "2026-06-21"
-    },
-    {
-     "a": "ci",
-     "b": "cw",
      "st": "ft",
-     "sa": 2,
-     "sb": 0,
-     "day": "2026-06-21"
-    },
-    {
-     "a": "ci",
-     "b": "de",
-     "st": "sched",
-     "day": "2026-06-26"
+     "dt": "2026-06-20T15:00:00-04:00"
     },
     {
      "a": "ec",
      "b": "cw",
-     "st": "sched",
-     "day": "2026-06-26"
+     "sa": 0,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-20T18:00:00-04:00"
+    },
+    {
+     "a": "cw",
+     "b": "ci",
+     "sa": 0,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-25T16:00:00-04:00"
+    },
+    {
+     "a": "ec",
+     "b": "de",
+     "sa": 2,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-25T16:00:00-04:00"
     }
    ]
   },
@@ -615,43 +662,51 @@ const FALLBACK = /*__SEED__*/{
    "games": [
     {
      "a": "nl",
-     "b": "tn",
-     "st": "ft",
-     "sa": 3,
-     "sb": 1,
-     "day": "2026-06-14"
-    },
-    {
-     "a": "nl",
      "b": "jp",
-     "st": "sched",
-     "day": "2026-06-14"
+     "sa": 2,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-14T18:00:00-04:00"
     },
     {
      "a": "se",
      "b": "tn",
-     "st": "sched",
-     "day": "2026-06-20"
-    },
-    {
-     "a": "jp",
-     "b": "tn",
-     "st": "sched",
-     "day": "2026-06-20"
-    },
-    {
-     "a": "jp",
-     "b": "se",
-     "st": "ft",
-     "sa": 1,
+     "sa": 5,
      "sb": 1,
-     "day": "2026-06-25"
+     "st": "ft",
+     "dt": "2026-06-14T21:00:00-04:00"
     },
     {
      "a": "nl",
      "b": "se",
-     "st": "sched",
-     "day": "2026-06-25"
+     "sa": 5,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-20T12:00:00-04:00"
+    },
+    {
+     "a": "tn",
+     "b": "jp",
+     "sa": 0,
+     "sb": 4,
+     "st": "ft",
+     "dt": "2026-06-21T00:00:00-04:00"
+    },
+    {
+     "a": "jp",
+     "b": "se",
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-25T19:00:00-04:00"
+    },
+    {
+     "a": "tn",
+     "b": "nl",
+     "sa": 1,
+     "sb": 3,
+     "st": "ft",
+     "dt": "2026-06-25T19:00:00-04:00"
     }
    ]
   },
@@ -664,40 +719,48 @@ const FALLBACK = /*__SEED__*/{
    ],
    "games": [
     {
+     "a": "be",
+     "b": "eg",
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-15T15:00:00-04:00"
+    },
+    {
+     "a": "ir",
+     "b": "nz",
+     "sa": 2,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-15T21:00:00-04:00"
+    },
+    {
+     "a": "be",
+     "b": "ir",
+     "sa": 0,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-21T15:00:00-04:00"
+    },
+    {
+     "a": "nz",
+     "b": "eg",
+     "sa": 1,
+     "sb": 3,
+     "st": "ft",
+     "dt": "2026-06-21T21:00:00-04:00"
+    },
+    {
      "a": "eg",
      "b": "ir",
      "st": "sched",
-     "day": "2026-06-15"
+     "dt": "2026-06-26T23:00:00-04:00"
     },
     {
      "a": "nz",
      "b": "be",
      "st": "sched",
-     "day": "2026-06-15"
-    },
-    {
-     "a": "be",
-     "b": "ir",
-     "st": "sched",
-     "day": "2026-06-21"
-    },
-    {
-     "a": "eg",
-     "b": "nz",
-     "st": "sched",
-     "day": "2026-06-21"
-    },
-    {
-     "a": "eg",
-     "b": "be",
-     "st": "sched",
-     "day": "2026-06-27"
-    },
-    {
-     "a": "ir",
-     "b": "nz",
-     "st": "sched",
-     "day": "2026-06-27"
+     "dt": "2026-06-26T23:00:00-04:00"
     }
    ]
   },
@@ -712,38 +775,46 @@ const FALLBACK = /*__SEED__*/{
     {
      "a": "es",
      "b": "cv",
-     "st": "sched",
-     "day": "2026-06-15"
+     "sa": 0,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-15T12:00:00-04:00"
     },
     {
      "a": "sa",
      "b": "uy",
-     "st": "sched",
-     "day": "2026-06-15"
+     "sa": 1,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-15T18:00:00-04:00"
     },
     {
      "a": "es",
      "b": "sa",
-     "st": "sched",
-     "day": "2026-06-21"
+     "sa": 4,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-21T12:00:00-04:00"
     },
     {
      "a": "uy",
      "b": "cv",
-     "st": "sched",
-     "day": "2026-06-21"
+     "sa": 2,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-21T18:00:00-04:00"
     },
     {
      "a": "cv",
      "b": "sa",
      "st": "sched",
-     "day": "2026-06-27"
+     "dt": "2026-06-26T20:00:00-04:00"
     },
     {
      "a": "uy",
      "b": "es",
      "st": "sched",
-     "day": "2026-06-27"
+     "dt": "2026-06-26T20:00:00-04:00"
     }
    ]
   },
@@ -758,42 +829,46 @@ const FALLBACK = /*__SEED__*/{
     {
      "a": "fr",
      "b": "sn",
-     "st": "ft",
      "sa": 3,
      "sb": 1,
-     "day": "2026-06-16"
+     "st": "ft",
+     "dt": "2026-06-16T12:00:00-04:00"
     },
     {
-     "a": "no",
-     "b": "iq",
+     "a": "iq",
+     "b": "no",
+     "sa": 1,
+     "sb": 4,
      "st": "ft",
-     "sa": 4,
-     "sb": 1,
-     "day": "2026-06-16"
+     "dt": "2026-06-16T15:00:00-04:00"
     },
     {
      "a": "fr",
      "b": "iq",
-     "st": "sched",
-     "day": "2026-06-21"
+     "sa": 3,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-22T12:00:00-04:00"
     },
     {
      "a": "no",
      "b": "sn",
-     "st": "sched",
-     "day": "2026-06-21"
+     "sa": 3,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-22T18:00:00-04:00"
     },
     {
      "a": "no",
      "b": "fr",
      "st": "sched",
-     "day": "2026-06-26"
+     "dt": "2026-06-26T15:00:00-04:00"
     },
     {
      "a": "sn",
      "b": "iq",
      "st": "sched",
-     "day": "2026-06-26"
+     "dt": "2026-06-26T15:00:00-04:00"
     }
    ]
   },
@@ -808,40 +883,46 @@ const FALLBACK = /*__SEED__*/{
     {
      "a": "ar",
      "b": "dz",
-     "st": "ft",
      "sa": 3,
      "sb": 0,
-     "day": "2026-06-16"
+     "st": "ft",
+     "dt": "2026-06-16T18:00:00-04:00"
     },
     {
      "a": "at",
      "b": "jo",
-     "st": "sched",
-     "day": "2026-06-16"
+     "sa": 3,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-17T12:00:00-04:00"
     },
     {
      "a": "ar",
      "b": "at",
-     "st": "sched",
-     "day": "2026-06-22"
+     "sa": 2,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-22T15:00:00-04:00"
+    },
+    {
+     "a": "jo",
+     "b": "dz",
+     "sa": 1,
+     "sb": 2,
+     "st": "ft",
+     "dt": "2026-06-22T21:00:00-04:00"
     },
     {
      "a": "dz",
-     "b": "jo",
+     "b": "at",
      "st": "sched",
-     "day": "2026-06-22"
+     "dt": "2026-06-27T22:00:00-04:00"
     },
     {
      "a": "jo",
      "b": "ar",
      "st": "sched",
-     "day": "2026-06-27"
-    },
-    {
-     "a": "dz",
-     "b": "at",
-     "st": "sched",
-     "day": "2026-06-27"
+     "dt": "2026-06-27T22:00:00-04:00"
     }
    ]
   },
@@ -856,42 +937,46 @@ const FALLBACK = /*__SEED__*/{
     {
      "a": "pt",
      "b": "cd",
-     "st": "ft",
      "sa": 1,
      "sb": 1,
-     "day": "2026-06-17"
+     "st": "ft",
+     "dt": "2026-06-17T14:00:00-04:00"
     },
     {
-     "a": "co",
-     "b": "uz",
+     "a": "uz",
+     "b": "co",
+     "sa": 1,
+     "sb": 3,
      "st": "ft",
-     "sa": 3,
-     "sb": 1,
-     "day": "2026-06-17"
+     "dt": "2026-06-17T21:00:00-04:00"
     },
     {
      "a": "pt",
      "b": "uz",
-     "st": "sched",
-     "day": "2026-06-22"
+     "sa": 5,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-23T12:00:00-04:00"
     },
     {
      "a": "co",
      "b": "cd",
-     "st": "sched",
-     "day": "2026-06-22"
+     "sa": 1,
+     "sb": 0,
+     "st": "ft",
+     "dt": "2026-06-23T21:00:00-04:00"
     },
     {
      "a": "co",
      "b": "pt",
      "st": "sched",
-     "day": "2026-06-27"
+     "dt": "2026-06-27T19:30:00-04:00"
     },
     {
      "a": "cd",
      "b": "uz",
      "st": "sched",
-     "day": "2026-06-27"
+     "dt": "2026-06-27T19:30:00-04:00"
     }
    ]
   },
@@ -906,44 +991,46 @@ const FALLBACK = /*__SEED__*/{
     {
      "a": "gb-eng",
      "b": "hr",
-     "st": "ft",
      "sa": 4,
      "sb": 2,
-     "day": "2026-06-17"
+     "st": "ft",
+     "dt": "2026-06-17T15:00:00-04:00"
     },
     {
      "a": "gh",
      "b": "pa",
-     "st": "ft",
      "sa": 1,
      "sb": 0,
-     "day": "2026-06-17"
+     "st": "ft",
+     "dt": "2026-06-17T18:00:00-04:00"
     },
     {
      "a": "gb-eng",
      "b": "gh",
-     "st": "ft",
      "sa": 0,
      "sb": 0,
-     "day": "2026-06-23"
+     "st": "ft",
+     "dt": "2026-06-23T15:00:00-04:00"
     },
     {
-     "a": "hr",
-     "b": "pa",
-     "st": "sched",
-     "day": "2026-06-23"
+     "a": "pa",
+     "b": "hr",
+     "sa": 0,
+     "sb": 1,
+     "st": "ft",
+     "dt": "2026-06-23T18:00:00-04:00"
     },
     {
      "a": "pa",
      "b": "gb-eng",
      "st": "sched",
-     "day": "2026-06-27"
+     "dt": "2026-06-27T17:00:00-04:00"
     },
     {
      "a": "hr",
      "b": "gh",
      "st": "sched",
-     "day": "2026-06-27"
+     "dt": "2026-06-27T17:00:00-04:00"
     }
    ]
   }
@@ -1024,6 +1111,11 @@ const FALLBACK = /*__SEED__*/{
    "a": {
     "code": "us",
     "name": "USA"
+   },
+   "b": {
+    "code": "ba",
+    "name": "Bosnia & Herzegovina",
+    "prov": true
    }
   },
   "82": {
@@ -1069,7 +1161,12 @@ const FALLBACK = /*__SEED__*/{
    }
   },
   "88": {
-   "status": "scheduled"
+   "status": "scheduled",
+   "a": {
+    "code": "au",
+    "name": "Australia",
+    "prov": true
+   }
   },
   "89": {
    "status": "scheduled"
@@ -1181,7 +1278,7 @@ function flagEl(code,big){
   img.onerror=function(){ const s=document.createElement('span'); s.className=img.className+' emo'; s.textContent=EMO[code]||'🏳'; img.replaceWith(s); };
   return img;
 }
-function dayLabel(d){ if(!d) return ''; const dt=new Date(d+'T12:00:00'); return dt.toLocaleDateString('en-GB',{day:'numeric',month:'short'}); }
+function dayLabel(iso){ return iso? new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',day:'numeric',month:'short'}).format(new Date(iso)) : ''; }
 
 /* ===================== GROUPS ===================== */
 function standings(key){
@@ -1228,7 +1325,7 @@ function renderGroups(){
     // fixtures
     const fx=document.createElement('div'); fx.className='gfix';
     fx.innerHTML='<div class="fxhead">Matches</div>';
-    G.games.slice().sort((a,b)=> (a.day||'').localeCompare(b.day||'')).forEach(g=>{
+    G.games.slice().sort((a,b)=> (new Date(a.dt||0))-(new Date(b.dt||0))).forEach(g=>{
       const b=document.createElement('button'); b.className='fx'+(g.st==='live'?' live':'');
       const ta=document.createElement('span'); ta.className='ft r';
       const na=document.createElement('span'); na.className='nm'; na.textContent=name(g.a); ta.appendChild(na); ta.appendChild(flagEl(g.a));
@@ -1238,7 +1335,7 @@ function renderGroups(){
       const tb2=document.createElement('span'); tb2.className='ft';
       tb2.appendChild(flagEl(g.b)); const nb=document.createElement('span'); nb.className='nm'; nb.textContent=name(g.b); tb2.appendChild(nb);
       b.appendChild(ta); b.appendChild(sc); b.appendChild(tb2);
-      const day=document.createElement('span'); day.className='day'; day.textContent=dayLabel(g.day); b.appendChild(day);
+      const day=document.createElement('span'); day.className='day'; day.textContent=dayLabel(g.dt); b.appendChild(day);
       b.addEventListener('click',()=>openGroupModal(key,g));
       fx.appendChild(b);
     });
@@ -1417,8 +1514,8 @@ function openGroupModal(key,g){
   vs.appendChild(vrow({code:g.b}, fin?g.sb:null, bw));
   sheet.appendChild(vs);
   const box=document.createElement('div'); box.className='istbox'+(fin?' done':'');
-  if(fin){ box.innerHTML=`<div class="lab">Result</div><div class="big">${g.sa}–${g.sb}</div><div class="day">${g.day?dayLabel(g.day):''}${g.day?', 2026':''}</div>`; }
-  else { box.innerHTML=`<div class="lab">Scheduled</div><div class="big">${g.day?dayLabel(g.day):'TBD'}</div><div class="day">Kick-off time set closer to the match</div>`; }
+  if(fin){ box.innerHTML=`<div class="lab">Result · India (IST)</div><div class="big">${g.sa}–${g.sb}</div><div class="day">Played ${g.dt?fISTday.format(new Date(g.dt)):''}</div>`; }
+  else { box.innerHTML=`<div class="lab"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Kick-off · India (IST)</div><div class="big">${g.dt?fIST.format(new Date(g.dt)):'TBD'}</div><div class="day">${g.dt?fISTday.format(new Date(g.dt)):''}</div>`; const c=g.dt?countdown(g.dt):null; if(c) box.insertAdjacentHTML('beforeend',`<div class="count">${c}</div>`); }
   sheet.appendChild(box);
   open();
 }
@@ -1427,15 +1524,116 @@ function closeModal(){ backdrop.classList.remove('open'); document.body.style.ov
 backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
+/* ===================== TODAY / FIXTURES ===================== */
+let SELDATE=null;
+const fDateFull=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',weekday:'long',day:'numeric',month:'long'});
+const fDateShort=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',weekday:'short',day:'numeric',month:'short'});
+function dateKeyIST(d){ return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kolkata',year:'numeric',month:'2-digit',day:'2-digit'}).format(d); }
+function dkDate(k){ return new Date(k+'T12:00:00+05:30'); }
+function todayKey(){ return dateKeyIST(new Date()); }
+function allMatches(){
+  const out=[];
+  Object.keys(DATA.groups||{}).forEach(k=>{ DATA.groups[k].games.forEach((g,i)=>{
+    out.push({kind:'group',key:k,gi:i,g,comp:'Group '+k,dateKey:g.dt?dateKeyIST(new Date(g.dt)):null,
+      sortT:g.dt?new Date(g.dt).getTime():Infinity}); }); });
+  Object.keys(BR).forEach(n=>{ const dt=new Date(BR[n].dt);
+    out.push({kind:'ko',n:+n,meta:BR[n],comp:BR[n].r,dateKey:dateKeyIST(dt),sortT:dt.getTime()}); });
+  { const dt=new Date(THIRD.dt); out.push({kind:'ko',n:103,third:true,meta:THIRD,comp:THIRD.r,dateKey:dateKeyIST(dt),sortT:dt.getTime()}); }
+  return out;
+}
+function availableDates(){ const m=new Map();
+  allMatches().forEach(x=>{ if(x.dateKey) m.set(x.dateKey,(m.get(x.dateKey)||0)+1); });
+  return [...m.keys()].sort().map(k=>({k,count:m.get(k)})); }
+function defaultDate(){ const ds=availableDates().map(d=>d.k); const t=todayKey();
+  if(ds.includes(t)) return t; const fut=ds.filter(d=>d>=t); if(fut.length) return fut[0]; return ds[ds.length-1]||t; }
+function fteamRow(side,score,state){
+  const row=document.createElement('div'); row.className='fteam'+(side.ph?' ph':'')+(state?' '+state:'');
+  if(side.ph){ const b=document.createElement('span'); b.className='phbox'; b.style.width='24px'; b.style.height='16px'; row.appendChild(b);
+    const nm=document.createElement('span'); nm.className='fnm'; nm.textContent=side.ph; row.appendChild(nm); return row; }
+  row.appendChild(flagEl(side.code));
+  const nm=document.createElement('span'); nm.className='fnm'; nm.textContent=side.name||name(side.code); row.appendChild(nm);
+  if(score!=null){ const s=document.createElement('span'); s.className='fsc'; s.textContent=score; row.appendChild(s); }
+  return row;
+}
+function renderToday(){
+  const host=document.getElementById('todayView');
+  const dates=availableDates();
+  if(!SELDATE || !dates.find(d=>d.k===SELDATE)) SELDATE=defaultDate();
+  host.innerHTML='';
+  const head=document.createElement('div'); head.className='dayhead';
+  const title=document.createElement('span'); title.className='dtitle';
+  title.textContent = SELDATE===todayKey() ? 'Today' : fDateShort.format(dkDate(SELDATE));
+  head.appendChild(title);
+  const list=allMatches().filter(m=>m.dateKey===SELDATE).sort((a,b)=>a.sortT-b.sortT);
+  const sub=document.createElement('span'); sub.className='dcount';
+  sub.textContent=fDateFull.format(dkDate(SELDATE))+' · '+list.length+' match'+(list.length!==1?'es':'');
+  head.appendChild(sub);
+  const browse=document.createElement('button'); browse.className='browse';
+  browse.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg> Browse by date';
+  browse.onclick=openDateSheet; head.appendChild(browse);
+  host.appendChild(head);
+  if(!list.length){ const e=document.createElement('div'); e.className='fempty'; e.textContent='No matches on this date.'; host.appendChild(e); return; }
+  list.forEach(m=>{
+    const card=document.createElement('div'); card.className='fcard';
+    const top=document.createElement('div'); top.className='fctop';
+    const comp=document.createElement('span'); comp.className='fcomp'; comp.textContent=m.comp; top.appendChild(comp);
+    const ven=document.createElement('span'); ven.className='fven';
+    let a,b,fin,live,sa,sb,winA,winB,chip,cc;
+    if(m.kind==='group'){ const g=m.g; a={code:g.a}; b={code:g.b}; fin=g.st==='ft'&&g.sa!=null; live=g.st==='live'; sa=g.sa; sb=g.sb;
+      winA=fin&&g.sa>g.sb; winB=fin&&g.sb>g.sa; ven.textContent='Group stage';
+      chip=fin?'FT':live?'● LIVE':(g.dt?fIST.format(new Date(g.dt)):'TBD'); cc=fin?'ft':live?'live':'up'; }
+    else { const meta=m.meta,d=m.third?{}:dm(m.n);
+      a=m.third?{ph:'Loser 101'}:resolveSide(m.n,'a'); b=m.third?{ph:'Loser 102'}:resolveSide(m.n,'b');
+      fin=d.status==='finished'||d.status==='ft'; live=d.status==='live'; sa=d.sa; sb=d.sb;
+      winA=fin&&d.winner==='A'; winB=fin&&d.winner==='B'; ven.textContent=meta.v+' · '+meta.c;
+      chip=fin?'FT':live?'● LIVE':fIST.format(new Date(meta.dt)); cc=fin?'ft':live?'live':'up'; }
+    top.appendChild(ven);
+    const c=document.createElement('span'); c.className='fchip '+cc; c.textContent=chip; top.appendChild(c);
+    card.appendChild(top);
+    card.appendChild(fteamRow(a, fin?sa:null, winA?'w':(fin?'l':null)));
+    card.appendChild(fteamRow(b, fin?sb:null, winB?'w':(fin?'l':null)));
+    card.onclick=()=> m.kind==='group'? openGroupModal(m.key,m.g) : openMatchModal(m.n,m.third);
+    host.appendChild(card);
+  });
+}
+function openDateSheet(){
+  sheet.innerHTML='';
+  const head=document.createElement('div'); head.className='shead';
+  head.innerHTML='<span class="rtag">Match calendar</span><span class="mtag">Dates with fixtures</span>';
+  const cb=document.createElement('button'); cb.className='closeb'; cb.textContent='✕'; cb.onclick=closeModal; head.appendChild(cb);
+  sheet.appendChild(head);
+  const list=document.createElement('div'); list.className='dlist';
+  availableDates().forEach(d=>{
+    const row=document.createElement('button'); row.className='drow'+(d.k===SELDATE?' sel':'');
+    const dd=document.createElement('span'); dd.className='dd'; dd.textContent=fDateShort.format(dkDate(d.k)); row.appendChild(dd);
+    if(d.k===todayKey()){ const t=document.createElement('span'); t.className='dtoday'; t.textContent='TODAY'; row.appendChild(t); }
+    const c=document.createElement('span'); c.className='dc'; c.textContent=d.count+' match'+(d.count!==1?'es':''); row.appendChild(c);
+    row.onclick=()=>{ SELDATE=d.k; closeModal(); renderToday(); };
+    list.appendChild(row);
+  });
+  sheet.appendChild(list); open();
+}
+
 /* ===================== TABS ===================== */
+const tv=document.getElementById('todayView');
 const gv=document.getElementById('groupsView'), bv=document.getElementById('bracketView');
-const tG=document.getElementById('tabGroups'), tB=document.getElementById('tabBracket');
-function showGroups(){ gv.style.display='grid'; bv.style.display='none'; tG.classList.add('active'); tB.classList.remove('active'); }
-function showBracket(){ gv.style.display='none'; bv.style.display='block'; tB.classList.add('active'); tG.classList.remove('active'); layoutBracket(); fit(); }
-tG.onclick=showGroups; tB.onclick=showBracket;
+const tT=document.getElementById('tabToday'), tG=document.getElementById('tabGroups'), tB=document.getElementById('tabBracket');
+function setTab(which){
+  tv.style.display=which==='today'?'block':'none';
+  gv.style.display=which==='groups'?'grid':'none';
+  bv.style.display=which==='bracket'?'block':'none';
+  tT.classList.toggle('active',which==='today');
+  tG.classList.toggle('active',which==='groups');
+  tB.classList.toggle('active',which==='bracket');
+}
+function showToday(){ setTab('today'); renderToday(); }
+function showGroups(){ setTab('groups'); }
+function showBracket(){ setTab('bracket'); layoutBracket(); fit(); }
+tT.onclick=showToday; tG.onclick=showGroups; tB.onclick=showBracket;
 
 /* ===================== LIVE ===================== */
 function renderAll(){
+  renderToday();
   renderGroups();
   renderBracket();
   // qualified strip note + updated + live
@@ -1454,6 +1652,7 @@ async function loadData(){
   renderAll();
 }
 document.getElementById('refreshBtn').onclick=loadData;
+showToday();
 loadData();
 setInterval(loadData,60000);
 window.addEventListener('load',()=>{ if(bv.style.display!=='none'){ layoutBracket(); fit(); } });
