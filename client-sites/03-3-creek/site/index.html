@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3 Creek — Paver driveways, stone patios and hardscape design, Charleston SC</title>
+<meta name="description" content="3 Creek designs and builds paver driveways, natural stone patios and outdoor living spaces across Charleston and the Lowcountry. Every project starts with a measured drawing.">
+<meta name="theme-color" content="#efe9dd">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<canvas id="field" aria-hidden="true"></canvas>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="3 Creek, home"><b>3</b><span>Creek</span></a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="#process">Process</a><a href="#lab">Pattern lab</a><a href="#work">Work</a><a href="#materials">Materials</a><a href="#faq">FAQ</a>
+  </nav>
+  <div class="nav-cta"><a class="tel" href="tel:+18432419486">843.241.9486</a><a class="btn btn-ink" href="#start">Start a project</a></div>
+</header>
+
+<main id="top">
+
+  <section class="hero" id="hero">
+    <div class="hero-copy">
+      <p class="note"><span>Hardscape design + build</span><span>Charleston, South Carolina</span></p>
+      <h1 class="display">Drawn first.<br><em>Then laid by hand.</em></h1>
+      <p class="lede">3 Creek designs and builds paver driveways, stone patios and outdoor rooms across the Lowcountry. Every project begins as a measured drawing, so you see your home's new ground before we break it.</p>
+      <div class="actions">
+        <a class="btn btn-ink btn-lg" href="#start">Request a consultation</a>
+        <a class="btn btn-line btn-lg" href="#lab">Try a pattern</a>
+      </div>
+    </div>
+    <dl class="hero-facts">
+      <div><dt>Google</dt><dd>4.9 from 65 reviews</dd></div>
+      <div><dt>We lay</dt><dd>Pavers, stone, concrete, turf</dd></div>
+      <div><dt>From</dt><dd>Downtown to Kiawah</dd></div>
+    </dl>
+  </section>
+
+  <section class="process" id="process" aria-label="How a project runs">
+    <div class="process-sticky">
+      <div class="steps" id="steps">
+        <article class="step is-active"><p class="num">01 <span>Consultation</span></p><h2>We come to you.</h2><p>Once your inquiry is in, we schedule an in-person estimate and walk the site together: how you use the space, where the water goes, and what you want to see from the kitchen window.</p></article>
+        <article class="step"><p class="num">02 <span>Measured drawing</span></p><h2>Then we draw it.</h2><p>Photos and measurements become an engineered drawing of your project. You see the layout, the flow and the borders before a single shovel moves.</p></article>
+        <article class="step"><p class="num">03 <span>Materials + quote</span></p><h2>You choose the stone.</h2><p>Samples in hand wherever the manufacturer allows it. Then one clear quote that covers labor, material and delivery.</p></article>
+        <article class="step"><p class="num">04 <span>Build</span></p><h2>Then we build what we drew.</h2><p>You get a lead time up front and a production team that stays in touch until the last joint is swept.</p></article>
+      </div>
+      <svg class="sheet" id="sheet" viewBox="0 0 600 600" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M70 548h460M70 540v16M530 540v16"/><path d="M48 70v460M40 70h16M40 530h16"/>
+          <circle cx="536" cy="78" r="22"/><path d="M536 50v56M536 50l-7 16h14z" fill="currentColor"/>
+        </g>
+        <g font-family="DM Mono, monospace" font-size="12" fill="currentColor" letter-spacing="1.2">
+          <text x="300" y="572" text-anchor="middle">48'-0"</text>
+          <text x="30" y="300" text-anchor="middle" transform="rotate(-90 30 300)">48'-0"</text>
+          <text x="536" y="122" text-anchor="middle">N</text>
+          <text x="70" y="40">SHEET L-1 · PAVER LAYOUT</text>
+          <text x="70" y="58" opacity=".6">SCALE 1/4" = 1'-0" · SLOPE 2% TO DRAIN</text>
+        </g>
+      </svg>
+      <ol class="rail" id="rail" aria-hidden="true"><li class="on"></li><li></li><li></li><li></li></ol>
+    </div>
+  </section>
+
+  <section class="lab" id="lab">
+    <div class="lab-panel">
+      <p class="note"><span>Pattern lab</span></p>
+      <h2 class="h2">Try one on <em>before you commit.</em></h2>
+      <p class="lab-lede">Pattern and colour change a driveway more than size does. Pick a pair and watch it get laid.</p>
+      <fieldset class="pick" id="pickPattern"><legend>Pattern</legend>
+        <label><input type="radio" name="pattern" value="Herringbone" checked><span>Herringbone</span></label>
+        <label><input type="radio" name="pattern" value="Herringbone 45°"><span>Herringbone 45°</span></label>
+        <label><input type="radio" name="pattern" value="Running bond"><span>Running bond</span></label>
+        <label><input type="radio" name="pattern" value="Basketweave"><span>Basketweave</span></label>
+        <label><input type="radio" name="pattern" value="Stack bond"><span>Stack bond</span></label>
+      </fieldset>
+      <fieldset class="pick swatches" id="pickBlend"><legend>Blend</legend>
+        <label><input type="radio" name="blend" value="Charleston Pearl" checked><i style="--a:#dbd5c8;--b:#c3bcad"></i><span>Charleston Pearl</span></label>
+        <label><input type="radio" name="blend" value="King St."><i style="--a:#b56447;--b:#8f4530"></i><span>King St.</span></label>
+        <label><input type="radio" name="blend" value="River Run"><i style="--a:#a3abae;--b:#7a858b"></i><span>River Run</span></label>
+        <label><input type="radio" name="blend" value="Earthen Moon"><i style="--a:#d6bd9c;--b:#b89a74"></i><span>Earthen Moon</span></label>
+        <label><input type="radio" name="blend" value="Downtown Alley"><i style="--a:#5f6263;--b:#434647"></i><span>Downtown Alley</span></label>
+      </fieldset>
+      <p class="lab-result"><span id="labResult">Herringbone in Charleston Pearl</span><a class="arrow" id="labCta" href="#start">Ask for a sample</a></p>
+    </div>
+  </section>
+
+  <div class="page">
+
+    <section class="work wrap" id="work">
+      <header class="sec-head">
+        <p class="note"><span>Recent work</span></p>
+        <h2 class="h2">Around the Lowcountry, <em>one drive at a time.</em></h2>
+      </header>
+      <div class="work-grid">
+        <figure class="w-a"><img src="assets/img/marsh-patio.jpg" alt="Stone terrace and spa surround overlooking the marsh" loading="lazy"><figcaption><b>On the marsh</b><span>Stone terrace and spa surround</span></figcaption></figure>
+        <figure class="w-b"><img src="assets/img/night-drive.jpg" alt="Paver driveway lit by landscape lighting at dusk" loading="lazy"><figcaption><b>Folly Beach</b><span>Paver drive with landscape lighting</span></figcaption></figure>
+        <figure class="w-c"><img src="assets/img/cobble-low.jpg" alt="Cobble paver driveway seen from ground level" loading="lazy"><figcaption><b>Charleston</b><span>Classic cobble paver driveway</span></figcaption></figure>
+        <figure class="w-d"><img src="assets/img/brick-columns.jpg" alt="Brick columns with lanterns at the head of a shell concrete drive" loading="lazy"><figcaption><b>Sullivan's Island</b><span>Brick columns, lanterns, oyster-shell concrete</span></figcaption></figure>
+        <figure class="w-e"><img src="assets/img/permeable-turf.jpg" alt="White permeable paver driveway with turf inserts beside a brick house" loading="lazy"><figcaption><b>Downtown</b><span>Permeable drive with turf inserts</span></figcaption></figure>
+        <figure class="w-f"><img src="assets/img/pavilion-turf.jpg" alt="Covered pavilion on a paver patio bordered by turf" loading="lazy"><figcaption><b>James Island</b><span>Patio, pavilion and turf</span></figcaption></figure>
+        <figure class="w-g"><img src="assets/img/turtle-lights.jpg" alt="Recessed lights set into a paver driveway at night" loading="lazy"><figcaption><b>Isle of Palms</b><span>Custom inlay with recessed lighting</span></figcaption></figure>
+        <figure class="w-h"><img src="assets/img/shell-drive.jpg" alt="Oyster shell concrete driveway under live oaks" loading="lazy"><figcaption><b>Seabrook Island</b><span>Oyster-shell concrete</span></figcaption></figure>
+      </div>
+    </section>
+
+    <section class="materials" id="materials">
+      <div class="wrap mat-grid">
+        <header class="sec-head">
+          <p class="note"><span>Materials</span></p>
+          <h2 class="h2">Four kinds of paver. <em>One right answer for your lot.</em></h2>
+          <figure class="mat-photo"><img src="assets/img/aerial-herringbone.jpg" alt="Herringbone paver walk seen from above" loading="lazy"></figure>
+        </header>
+        <ol class="mat-list">
+          <li><b>01</b><h3>Concrete pavers</h3><p>The workhorse. Manufactured for longevity and stronger than poured residential concrete, in more colours and shapes than you'd expect. Right for driveways, walks, patios and pool coping.</p></li>
+          <li><b>02</b><h3>Clay pavers</h3><p>Moulded and kiln-fired for the classic Charleston brick look, in the reds, yellows and browns of the earth they come from. Beautiful, a little pricier, and they like some care.</p></li>
+          <li><b>03</b><h3>Stone + porcelain</h3><p>Travertine, bluestone, flagstone and porcelain. The widest range of texture and finish, and the most tailored result.</p></li>
+          <li><b>04</b><h3>Permeable pavers</h3><p>Wider joints let rain pass straight through into a deep gravel base. Some Lowcountry municipalities require them, and on a wet lot they are simply the smart choice.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="under" id="under">
+      <div class="wrap under-grid">
+        <div class="under-copy">
+          <p class="note light"><span>What you never see</span></p>
+          <h2 class="h2">We spend more time on the base <em>than on the pavers.</em></h2>
+          <p>If a driveway sinks, the problem was underneath. So we remove roots, grade and level the soil, and compact a gravel base before the first paver goes down. In the Lowcountry we plan for water on every job: trench drains, channel drains, French drains or dry wells, sized to how hard your lot floods.</p>
+          <p class="fine">We call 811 before we arrive, and we handle the questions your municipality will ask about permits.</p>
+        </div>
+        <svg class="section-cut" viewBox="0 0 590 330" role="img" aria-label="Cross-section of a paver installation: pavers, bedding layer, compacted gravel base, graded soil">
+          <g font-family="DM Mono, monospace" font-size="11" letter-spacing="1" fill="currentColor">
+            <g fill="#d6cfc0" stroke="#17201e" stroke-width="1"><rect x="10" y="20" width="74" height="34"/><rect x="88" y="20" width="74" height="34"/><rect x="166" y="20" width="74" height="34"/><rect x="244" y="20" width="74" height="34"/></g>
+            <rect x="10" y="56" width="308" height="20" fill="#bfae8b"/>
+            <rect x="10" y="78" width="308" height="112" fill="#7d8482"/>
+            <g fill="#17201e" opacity=".32"><circle cx="40" cy="104" r="7"/><circle cx="92" cy="140" r="9"/><circle cx="150" cy="108" r="6"/><circle cx="204" cy="150" r="8"/><circle cx="262" cy="112" r="7"/><circle cx="292" cy="162" r="6"/><circle cx="60" cy="168" r="6"/><circle cx="170" cy="172" r="5"/><circle cx="236" cy="96" r="5"/><circle cx="120" cy="92" r="4"/></g>
+            <rect x="10" y="192" width="308" height="118" fill="#5a4a3a"/>
+            <g stroke="currentColor" stroke-width="1" fill="none"><path d="M322 37h36M322 66h36M322 134h36M322 250h36"/></g>
+            <text x="366" y="41">PAVERS + POLYMERIC SAND</text><text x="366" y="70">BEDDING LAYER</text><text x="366" y="138">COMPACTED GRAVEL BASE</text><text x="366" y="254">GRADED, COMPACTED SOIL</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="voices wrap" id="voices">
+      <div class="score"><b>4.9</b><span>average across 65 Google reviews</span></div>
+      <blockquote class="big">“Within a few hours of our first phone call, Ryan was at my house with expert guidance and design support. I am already contracted with them for two more projects.”<cite>Kimbi Marenakos</cite></blockquote>
+      <blockquote>“From initial response to creative layout and through the install, an absolute pleasure. They removed our damaged driveway and installed a paver drive that looks incredible for our Lowcountry home.”<cite>Basil Aldaghstani</cite></blockquote>
+      <blockquote>“Ryan and the team installed a beautiful bluestone patio. They communicated timelines well and delivered a great product.”<cite>Geoff Dailey</cite></blockquote>
+    </section>
+
+    <section class="faq wrap" id="faq">
+      <header class="sec-head"><p class="note"><span>Good questions</span></p><h2 class="h2">Asked on <em>almost every estimate.</em></h2></header>
+      <div class="faq-list">
+        <details><summary>How soon can I park on a new paver driveway?</summary><p>You can walk on it immediately. We recommend waiting about 12 hours before driving or parking, so the polymeric sand can settle and lock the pavers.</p></details>
+        <details><summary>Can you lay pavers over my existing concrete?</summary><p>We strongly recommend against it. Pavers need a bed of heavily compacted soil and gravel, and that base is the most important part of the install. The trouble with an old driveway usually starts in the soil under it.</p></details>
+        <details><summary>Will weeds grow between the joints?</summary><p>We sweep polymeric sand into the joints and vibrate it down. It locks the pavers in place and keeps weeds and moss out.</p></details>
+        <details><summary>Do you finance projects?</summary><p>Yes. Ask us about the options when we meet.</p></details>
+        <details><summary>Can I see samples first?</summary><p>Usually, depending on the manufacturer. Where a sample isn't available we source the closest match in colour and finish.</p></details>
+      </div>
+    </section>
+
+    <footer class="start" id="start">
+      <div class="wrap">
+        <p class="display xl">Let's <em>draw yours.</em></p>
+        <div class="start-grid">
+          <div class="start-cta">
+            <p>Tell us about the driveway, patio or backyard you have in mind. We'll set up an in-person estimate and bring ideas.</p>
+            <a class="btn btn-paper btn-lg" href="https://clienthub.getjobber.com/client_hubs/7667c048-46c5-4ba9-841d-cda9ed0077cd/public/work_request/new" rel="noopener">Request a consultation</a>
+          </div>
+          <dl class="start-contact">
+            <div><dt>Call</dt><dd><a href="tel:+18432419486">843.241.9486</a></dd></div>
+            <div><dt>Write</dt><dd><a href="mailto:info@3-creek.com">info@3-creek.com</a></dd></div>
+            <div><dt>Find</dt><dd>78 Folly Road Blvd, Charleston, SC 29407</dd></div>
+            <div><dt>Follow</dt><dd><a href="https://www.instagram.com/3creek/" rel="noopener">Instagram</a> · <a href="http://www.pinterest.com/3CreekSC" rel="noopener">Pinterest</a></dd></div>
+          </dl>
+        </div>
+        <p class="areas">Charleston · Mount Pleasant · James Island · Johns Island · Daniel Island · West Ashley · Summerville · North Charleston · Isle of Palms · Sullivan's Island · Folly Beach · Kiawah · Seabrook</p>
+        <p class="legal">© 3 Creek <span class="concept">Design concept, not the live site</span></p>
+      </div>
+    </footer>
+  </div>
+</main>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

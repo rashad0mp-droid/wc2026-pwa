@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doubleday Guitars — Hand-built electric guitars, Austin, Texas</title>
+<meta name="description" content="Custom electric guitars built one at a time in Austin, Texas by luthier Walker Doubleday. Hand-carved necks, hand-wound pickups, thin nitro finishes. No CNC.">
+<meta name="theme-color" content="#0e0c0a">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<canvas id="stage" aria-hidden="true"></canvas>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Doubleday Guitars, home"><b>Doubleday</b><span>Guitars · Austin, TX</span></a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="#anatomy">Anatomy</a><a href="#spec">Spec yours</a><a href="#builds">Builds</a><a href="#maker">The maker</a><a href="#order">Ordering</a>
+  </nav>
+  <a class="btn btn-fill" href="#spec">Start your build</a>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-copy">
+      <p class="tag"><i></i>Hand-built in Austin, Texas since 2014</p>
+      <h1 class="mega"><span>We make ’em</span><span>like they</span><span class="hl">used to.</span></h1>
+      <p class="lede">One luthier, one guitar at a time. Every neck is carved by hand, every pickup is wound on the bench, and every body is finished in thin nitro. No CNC. No assembly line.</p>
+      <div class="actions">
+        <a class="btn btn-fill btn-lg" href="#spec">Start your build</a>
+        <a class="btn btn-line btn-lg" href="#builds">See recent builds</a>
+      </div>
+    </div>
+    <div class="hero-drag" data-drag><span class="hint">Drag to turn it</span></div>
+    <ul class="ticker" aria-label="What goes into every guitar">
+      <li>One-piece swamp ash or alder</li><li>Quarter-sawn maple necks</li><li>Hand-wound pickups</li><li>All-nitro finish</li><li>5-year warranty</li>
+    </ul>
+  </section>
+
+  <!-- ANATOMY -->
+  <section class="anatomy" id="anatomy" aria-label="How a Doubleday is built">
+    <div class="anatomy-sticky">
+      <div class="chapters" id="chapters">
+        <article class="chapter is-active">
+          <p class="count"><b>01</b>/04 <span>Body</span></p>
+          <h2>One piece of wood. Not three glued together.</h2>
+          <p>Each body is cut from a single lightweight plank of swamp ash or alder, chosen by hand for weight and ring before a saw touches it.</p>
+          <dl class="spec"><div><dt>Wood</dt><dd>One-piece swamp ash or alder</dd></div><div><dt>Strings</dt><dd>Through-body or top loader</dd></div><div><dt>Hardware</dt><dd>Kluson, slot-head screws throughout</dd></div></dl>
+        </article>
+        <article class="chapter">
+          <p class="count"><b>02</b>/04 <span>Neck</span></p>
+          <h2>Carved to fit a hand, not a template.</h2>
+          <p>Quarter-sawn maple, shaped with rasps and files until the profile is right for the person who ordered it. Tell Walker how you play and he'll tell you which carve.</p>
+          <dl class="spec"><div><dt>Profile</dt><dd>Soft V or Chunky C</dd></div><div><dt>Radius</dt><dd>7.25", 9.5", 12" or 16"</dd></div><div><dt>Details</dt><dd>Bone nut, heel-adjust truss rod, Kluson Supreme 18:1</dd></div></dl>
+        </article>
+        <article class="chapter">
+          <p class="count"><b>03</b>/04 <span>Pickups</span></p>
+          <h2>Wound here, to the sound in your head.</h2>
+          <p>Every Doubleday carries pickups scatter-wound by hand in the shop. You choose the magnet and how hot. The wiring is cloth pushback, the way it was done in the fifties.</p>
+          <dl class="spec"><div><dt>Magnets</dt><dd>AlNiCo 2, 3, 5, 8 or ceramic</dd></div><div><dt>Wind</dt><dd>Low, classic or hot</dd></div><div><dt>Wiring</dt><dd>CTS pots, Mallory caps, shielded cavities</dd></div></dl>
+        </article>
+        <article class="chapter">
+          <p class="count"><b>04</b>/04 <span>Finish</span></p>
+          <h2>Thin nitro. It breathes, and it ages with you.</h2>
+          <p>All-nitrocellulose lacquer, sprayed thin and buffed to a mirror. It lets the wood move and resonate, and it wears in honestly over the years you play it.</p>
+          <dl class="spec"><div><dt>Lacquer</dt><dd>100% nitrocellulose, gloss or satin</dd></div><div><dt>Colour</dt><dd id="finishCycle">Butterscotch</dd></div><div><dt>Guard</dt><dd>Bakelite, parchment or tortoise</dd></div></dl>
+        </article>
+      </div>
+      <ol class="pips" id="pips" aria-hidden="true"><li class="on">Body</li><li>Neck</li><li>Pickups</li><li>Finish</li></ol>
+    </div>
+  </section>
+
+  <!-- SPEC YOURS -->
+  <section class="spec-stage" id="spec">
+    <div class="spec-drag" data-drag><span class="hint">Drag to turn it</span></div>
+    <div class="spec-panel">
+      <p class="tag"><i></i>Spec yours</p>
+      <h2 class="h2">Start with the look.<br>Walker handles the rest.</h2>
+      <div class="opts" id="opts">
+        <fieldset data-key="finish"><legend>Finish</legend>
+          <label><input type="radio" name="finish" value="Butterscotch" checked><span class="sw" style="--c:#d7921f"></span><em>Butterscotch</em></label>
+          <label><input type="radio" name="finish" value="White Blonde"><span class="sw" style="--c:#eadfbe"></span><em>White Blonde</em></label>
+          <label><input type="radio" name="finish" value="Gloss Black"><span class="sw" style="--c:#131313"></span><em>Gloss Black</em></label>
+          <label><input type="radio" name="finish" value="Oxblood"><span class="sw" style="--c:#7d1612"></span><em>Oxblood</em></label>
+          <label><input type="radio" name="finish" value="Lake Blue"><span class="sw" style="--c:#1d4f7a"></span><em>Lake Blue</em></label>
+        </fieldset>
+        <fieldset data-key="guard"><legend>Pickguard</legend>
+          <label><input type="radio" name="guard" value="Black Bakelite" checked><span class="chip">Black Bakelite</span></label>
+          <label><input type="radio" name="guard" value="Parchment"><span class="chip">Parchment</span></label>
+          <label><input type="radio" name="guard" value="Tortoise"><span class="chip">Tortoise</span></label>
+        </fieldset>
+        <fieldset data-key="board"><legend>Fretboard</legend>
+          <label><input type="radio" name="board" value="Maple" checked><span class="chip">Maple</span></label>
+          <label><input type="radio" name="board" value="Rosewood"><span class="chip">Rosewood</span></label>
+        </fieldset>
+        <fieldset data-key="wood"><legend>Body</legend>
+          <label><input type="radio" name="wood" value="Swamp ash" checked><span class="chip">Swamp ash</span></label>
+          <label><input type="radio" name="wood" value="Alder"><span class="chip">Alder</span></label>
+        </fieldset>
+        <fieldset data-key="neck"><legend>Neck</legend>
+          <label><input type="radio" name="neck" value="Soft V" checked><span class="chip">Soft V</span></label>
+          <label><input type="radio" name="neck" value="Chunky C"><span class="chip">Chunky C</span></label>
+        </fieldset>
+        <fieldset data-key="wind"><legend>Pickups</legend>
+          <label><input type="radio" name="wind" value="Low wind"><span class="chip">Low</span></label>
+          <label><input type="radio" name="wind" value="Classic wind" checked><span class="chip">Classic</span></label>
+          <label><input type="radio" name="wind" value="Hot wind"><span class="chip">Hot</span></label>
+        </fieldset>
+      </div>
+      <div class="sheet">
+        <p class="sheet-line" id="sheetLine"></p>
+        <a class="btn btn-fill btn-lg" id="sendSpec" href="mailto:walker.doubleday@gmail.com">Send this spec to Walker</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="page">
+
+    <!-- BUILDS -->
+    <section class="builds" id="builds">
+      <header class="sec-head wrap">
+        <p class="tag"><i></i>Recent builds</p>
+        <h2 class="h2">No two leave the shop alike.</h2>
+        <p class="sec-note">Drag sideways. Every one of these went to the player who specified it.</p>
+      </header>
+      <div class="strip" id="strip" tabindex="0" aria-label="Gallery of recent builds">
+        <figure><img src="assets/img/black-gold.jpg" alt="Black T-style guitar with white guard and gold hardware" loading="lazy"><figcaption><b>01</b>Gloss black, gold hardware</figcaption></figure>
+        <figure class="tall"><img src="assets/img/red-thinline.jpg" alt="Flamed red thinline with f-hole" loading="lazy"><figcaption><b>02</b>Thinline in flamed red</figcaption></figure>
+        <figure><img src="assets/img/blue-quilt.jpg" alt="Blue quilted-top guitar in its case" loading="lazy"><figcaption><b>03</b>Blue quilt top</figcaption></figure>
+        <figure><img src="assets/img/blonde-tortoise.jpg" alt="Blonde T-style with tortoise pickguard" loading="lazy"><figcaption><b>04</b>Blonde with tortoise guard</figcaption></figure>
+        <figure class="tall"><img src="assets/img/white-bigsby.jpg" alt="White blonde guitar with gold vibrato" loading="lazy"><figcaption><b>05</b>White blonde, gold vibrato</figcaption></figure>
+        <figure><img src="assets/img/quilt-case.jpg" alt="Quilted burst guitar resting in a red-lined case" loading="lazy"><figcaption><b>06</b>Quilted burst</figcaption></figure>
+        <figure><img src="assets/img/red-sparkle.jpg" alt="Red sparkle bass and guitar pair" loading="lazy"><figcaption><b>07</b>Red sparkle, a matched pair</figcaption></figure>
+        <figure class="tall"><img src="assets/img/offset.jpg" alt="Offset guitar in dark grained ash" loading="lazy"><figcaption><b>08</b>Offset in dark ash</figcaption></figure>
+        <figure><img src="assets/img/butterscotch-close.jpg" alt="Butterscotch T-style, close up" loading="lazy"><figcaption><b>09</b>Butterscotch, up close</figcaption></figure>
+        <figure><img src="assets/img/white-s-amp.jpg" alt="White S-style guitar leaning on a tweed amp" loading="lazy"><figcaption><b>10</b>S-style in white</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- TWO LINES -->
+    <section class="lines wrap" id="lines">
+      <header class="sec-head">
+        <p class="tag"><i></i>Two ways in</p>
+        <h2 class="h2">Built from the board, or built for the gig.</h2>
+      </header>
+      <div class="line-grid">
+        <article class="line-card">
+          <img src="assets/img/butterscotch-pair.jpg" alt="Two Custom line guitars, butterscotch and white" loading="lazy">
+          <div>
+            <p class="count"><b>A</b> <span>Handmade Custom</span></p>
+            <h3>Yours from the first cut.</h3>
+            <p>Built entirely by hand from raw lumber to your spec. Hand-shaped neck, one-piece body, Doubleday pickups wound for you, thin nitro over everything.</p>
+            <ul><li>Every dimension chosen with you</li><li>Hand-wound Doubleday pickups</li><li>All-nitro finish, gloss or satin</li></ul>
+          </div>
+        </article>
+        <article class="line-card">
+          <img src="assets/img/blonde-t.jpg" alt="A Standard line guitar in blonde" loading="lazy">
+          <div>
+            <p class="count"><b>B</b> <span>Standard Line</span></p>
+            <h3>Same hands. Friendlier number.</h3>
+            <p>For the working, gigging player. Assembled and set up in the Austin shop from top-shelf parts, with the fretwork, wiring and final setup done by the same hands as the Custom line.</p>
+            <ul><li>Gotoh tuners, Kluson bridge</li><li>Razor pickups, designed in Texas</li><li>Often in stock and ready to ship</li></ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- MAKER -->
+    <section class="maker" id="maker">
+      <div class="wrap maker-grid">
+        <figure class="maker-photo"><img src="assets/img/walker.jpg" alt="Walker Doubleday holding a guitar neck outside the shop" loading="lazy"></figure>
+        <div class="maker-copy">
+          <p class="tag"><i></i>The maker</p>
+          <h2 class="h2">Walker Doubleday answers his own email.</h2>
+          <p>Walker graduated from the Roberto-Venn School of Luthiery in 2014, where he learned to build acoustic and electric guitars and took a particular interest in scatter-winding pickups by hand. He has been building in Austin ever since.</p>
+          <p>The shop runs on one idea: a guitar should feel personal. Not mass-produced, not rushed, and definitely not generic. When you order one, the person you talk to is the person holding the chisel.</p>
+          <blockquote>“He put his work up against a Plek machine and matched it one to one. Awesome craftsmanship. Winds his own pickups.”<cite>Chip Waldroup, Google review</cite></blockquote>
+        </div>
+        <figure class="maker-detail"><img src="assets/img/pickups.jpg" alt="Hand-wound pickups on a tweed amp grille" loading="lazy"><figcaption>Bobbins wound in the shop, one at a time.</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- ORDERING -->
+    <section class="order wrap" id="order">
+      <header class="sec-head">
+        <p class="tag"><i></i>Ordering</p>
+        <h2 class="h2">Four steps, no surprises.</h2>
+      </header>
+      <ol class="steps">
+        <li><b>01</b><h3>Talk it through</h3><p>Email Walker. He sends an order form and walks you through neck, wood, pickups and finish.</p></li>
+        <li><b>02</b><h3>Hold your place</h3><p>You get a written estimate. A 50% deposit puts you in the build queue.</p></li>
+        <li><b>03</b><h3>The build</h3><p>Current build time is under six months. You get updates from the bench along the way.</p></li>
+        <li><b>04</b><h3>It ships, set up</h3><p>Final setup, final payment, insured shipping. Covered by a five-year limited warranty.</p></li>
+      </ol>
+      <div class="proof">
+        <div class="proof-score"><b>5.0</b><span>from 56 Google reviews</span></div>
+        <blockquote>“Absolutely wonderful guitars and an even more amazing guy. Extremely talented, super knowledgeable, very communicative and a pleasure to work with.”<cite>Riley Kolker</cite></blockquote>
+        <blockquote>“I spent some time with Walker in his workshop and saw firsthand how much care and attention goes into his guitars.”<cite>Samuel Maverick</cite></blockquote>
+      </div>
+    </section>
+
+    <!-- REPAIRS -->
+    <section class="repairs">
+      <div class="wrap repairs-grid">
+        <div>
+          <p class="tag"><i></i>Repair bench</p>
+          <h2 class="h2">Already own the one? Bring it in.</h2>
+        </div>
+        <div>
+          <p>Setups, fretwork, nuts, electronics and finish touch-ups, done by the same hands that build the guitars. Availability depends on the build schedule, so ask first.</p>
+          <a class="arrow" href="mailto:walker.doubleday@gmail.com?subject=Repair%20enquiry">Ask about a repair</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA + FOOT -->
+    <footer class="foot" id="contact">
+      <div class="wrap">
+        <p class="mega sm"><span>Let’s build</span><span class="hl">yours.</span></p>
+        <div class="foot-grid">
+          <div><h4>Write</h4><a href="mailto:walker.doubleday@gmail.com">walker.doubleday@gmail.com</a></div>
+          <div><h4>Call</h4><a href="tel:+17138656066">(713) 865-6066</a></div>
+          <div><h4>Shop</h4><p>10107 Signal Hill Road, Unit A<br>Austin, TX 78737</p></div>
+          <div><h4>Follow</h4><a href="https://www.instagram.com/doubledayguitars/" rel="noopener">Instagram</a><a href="http://www.youtube.com/@DoubledayGuitars" rel="noopener">YouTube</a></div>
+        </div>
+        <p class="legal">© Doubleday Guitars LLC · Handmade in Austin, Texas <span class="concept">Design concept, not the live site</span></p>
+      </div>
+    </footer>
+  </div>
+</main>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

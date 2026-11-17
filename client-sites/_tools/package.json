@@ -1,0 +1,5 @@
+{ "name": "client-sites-tools", "private": true, "type": "module",
+  "dependencies": { "three": "0.169.0", "esbuild": "0.24.0",
+    "@fontsource/instrument-serif": "5.1.0", "@fontsource-variable/hanken-grotesk": "5.1.0",
+    "@fontsource-variable/big-shoulders-display": "5.1.0", "@fontsource-variable/spline-sans": "5.1.0", "@fontsource/ibm-plex-mono": "5.1.0",
+    "@fontsource-variable/newsreader": "5.1.0", "@fontsource-variable/schibsted-grotesk": "5.1.0", "@fontsource/dm-mono": "5.1.0" } }
