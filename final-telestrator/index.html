@@ -1,0 +1,606 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Chalk Talk — The 2026 Final</title>
+<style>
+@font-face{font-family:Bar;src:url(fonts/barlow800.woff2) format('woff2');font-weight:800}
+@font-face{font-family:Bar;src:url(fonts/barlow600.woff2) format('woff2');font-weight:600}
+@font-face{font-family:Cond;src:url(fonts/cond800i.woff2) format('woff2');font-weight:800;font-style:italic}
+@font-face{font-family:Cond;src:url(fonts/cond600.woff2) format('woff2');font-weight:600}
+@font-face{font-family:Mono;src:url(fonts/mono500.woff2) format('woff2');font-weight:500}
+html,body{margin:0;background:#000;overflow:hidden}
+canvas{display:block}
+</style></head>
+<body><canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// Sports Telestrator — "105 Minutes of Knocking": the 2026 final, Spain 1–0 Argentina (a.e.t.).
+// No footage: the broadcast-angle pitch, players and ball are drawn in code from a reconstruction of match reports
+// (positions illustrative). render(t) is deterministic.
+const C = document.getElementById('c'), X = C.getContext('2d');
+const W = 1920, H = 1080;
+const OFF = document.createElement('canvas'); OFF.width = W; OFF.height = H; const O = OFF.getContext('2d');
+const Q = new URLSearchParams(location.search), NOSUB = Q.get('nosub') === '1';
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const eo = k => 1 - Math.pow(1 - clamp(k), 3);
+const eio = k => { k = clamp(k); return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; };
+const back = (k, s = 1.7) => { k = clamp(k) - 1; return k * k * ((s + 1) * k + s) + 1; };
+const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+
+const COL = { ink: '#FFD400', def: '#3FD8FF', space: '#FF3B30', chalk: '#F4F1E8', board: '#0C1411', card: 'rgba(8,12,14,0.9)' };
+const KIT = {
+  esp: { shirt: '#C8102E', shorts: '#1B2A55', socks: '#1B2A55' },
+  arg: { shirt: '#9FD3F2', stripe: '#F7F7F7', shorts: '#16181D', socks: '#F2F2F2' },
+  gk:  { shirt: '#2B2F36', shorts: '#2B2F36', socks: '#2B2F36', glove: '#E8FF4A' }
+};
+
+// ——— Reconstruction (pitch metres: x 0–105 toward Argentina's goal, y 0 near touchline → 68 far) ———
+// Each track: [simTime, x, y]. Ball: [simTime, x, y, z, arc] (arc = extra height mid-way to this key).
+const SC = {
+  g: { // 106′: cross from the left, Williams heads it back across, Torres strikes left-footed from close range
+    ball: [[0, 80.5, 55, .11], [1.4, 88, 59.8, .11], [2.5, 99.5, 27.2, 2.3, 7], [2.95, 96.9, 34.2, .3, .4], [3.05, 97.1, 34.3, .2],
+           [3.35, 105.3, 33.1, .95], [3.5, 106.2, 33.0, .6], [3.8, 106.1, 33.0, .11], [5, 106.1, 33.0, .11]],
+    p: [
+      { id: 'C', team: 'esp', k: [[0, 80, 55.2], [1.4, 87.4, 59.9], [2.5, 89.3, 60.6], [5, 91, 59]] },
+      { id: 'W', team: 'esp', k: [[0, 93, 30], [1.6, 97.6, 28.1], [2.5, 99.5, 27.0], [3.0, 100.3, 26.6], [3.6, 99.6, 28.3], [5, 97.6, 31.5]] },
+      { id: 'T', team: 'esp', k: [[0, 90, 37.2], [1.8, 94.2, 36.0], [2.8, 96.4, 34.6], [3.05, 96.9, 34.4], [3.5, 96.2, 36.6], [5, 92.6, 41.5]] },
+      { id: 's3', team: 'esp', k: [[0, 91, 44], [2.5, 95, 42.2], [5, 95.8, 40.6]] },
+      { id: 's4', team: 'esp', k: [[0, 83, 36], [2.5, 88, 34], [5, 89.5, 33.5]] },
+      { id: 's5', team: 'esp', k: [[0, 76, 46], [5, 80.5, 46.5]] },
+      { id: 'GK', team: 'gk', k: [[0, 103.5, 34], [2.0, 103.9, 31.2], [2.7, 103.6, 32.7], [3.1, 103.3, 33.6], [3.32, 103.5, 34.8], [5, 103.6, 35.2]], dive: [3.12, 3.32, 1] },
+      { id: 'D1', team: 'arg', k: [[0, 95, 31.2], [2.5, 99.4, 28.7], [5, 100.4, 28.1]] },
+      { id: 'D2', team: 'arg', k: [[0, 99, 35.2], [2.5, 100.6, 33.1], [3.1, 99.6, 33.9], [5, 99.9, 34.2]] },
+      { id: 'D3', team: 'arg', k: [[0, 98, 40], [2.5, 100, 38.3], [3.2, 98.8, 37.1], [5, 98.6, 37]] },
+      { id: 'D4', team: 'arg', k: [[0, 94, 24], [2.5, 98, 23.6], [5, 98.4, 25]] },
+      { id: 'D5', team: 'arg', k: [[0, 88.8, 57.6], [1.4, 87.3, 58.3], [3, 88.2, 59.3], [5, 88.6, 58.6]] },
+      { id: 'D6', team: 'arg', k: [[0, 91, 40.4], [2.6, 93.6, 38.7], [3.2, 95, 37.3], [5, 95.2, 37.5]] },
+      { id: 'M1', team: 'arg', k: [[0, 86, 32], [3, 90, 33], [5, 91, 33.4]] },
+      { id: 'M2', team: 'arg', k: [[0, 84, 44], [5, 88, 44.5]] },
+      { id: 'M3', team: 'arg', k: [[0, 80, 26], [5, 84, 27]] }
+    ]
+  },
+  c: { // 93′: Spain work it right, Pedri crosses, Williams's header lacks power, Martínez dives to his right
+    ball: [[0, 77.5, 30, .11], [1.0, 84, 20, .11], [1.8, 85, 18.2, .11], [2.6, 88.8, 10.6, .11], [3.4, 89.6, 10.3, .11],
+           [4.4, 99.0, 31.0, 2.25, 3.2], [4.9, 104.2, 36.0, .55], [5.5, 101, 45, .5, 1.2], [5.9, 99.6, 48.6, .11], [7, 99.0, 50, .11]],
+    p: [
+      { id: 'Sa', team: 'esp', k: [[0, 77, 30.4], [7, 80, 31]] },
+      { id: 'Sb', team: 'esp', k: [[0, 83.4, 21], [1.8, 84.5, 18.6], [7, 86.5, 22]] },
+      { id: 'P', team: 'esp', k: [[0, 82, 20], [2.0, 87.6, 11.4], [3.4, 89.2, 10.0], [7, 90.5, 11]] },
+      { id: 'W', team: 'esp', k: [[0, 92, 36], [3.6, 96.2, 33], [4.4, 98.9, 31.2], [7, 100.4, 30.6]] },
+      { id: 's5', team: 'esp', k: [[0, 92, 42], [4.4, 97, 39], [7, 98, 40]] },
+      { id: 's6', team: 'esp', k: [[0, 88, 48], [7, 92.5, 47]] },
+      { id: 'GK', team: 'gk', k: [[0, 103.6, 33], [3.4, 104, 31.2], [4.45, 104, 33.4], [4.88, 104.1, 35.6], [5.6, 104.2, 36.4], [7, 104.2, 36.4]], dive: [4.45, 4.9, 1] },
+      { id: 'D1', team: 'arg', k: [[0, 97, 33], [4.4, 99.8, 31.9], [7, 100.2, 32]] },
+      { id: 'D2', team: 'arg', k: [[0, 98, 28], [4.4, 100, 27], [7, 100, 27.5]] },
+      { id: 'D3', team: 'arg', k: [[0, 99, 38], [4.4, 100.5, 37], [7, 100.4, 39]] },
+      { id: 'D4', team: 'arg', k: [[0, 90, 14.5], [3.4, 88.6, 12.2], [7, 89.5, 13]] },
+      { id: 'D5', team: 'arg', k: [[0, 88, 28], [5, 93, 30], [7, 94, 31]] },
+      { id: 'D6', team: 'arg', k: [[0, 85, 38], [7, 90, 40.5]] },
+      { id: 'D7', team: 'arg', k: [[0, 93, 22], [7, 96, 22.5]] },
+      { id: 'M1', team: 'arg', k: [[0, 80, 24], [7, 83, 22]] }
+    ]
+  }
+};
+function track(k, s) {
+  if (s <= k[0][0]) return [k[0][1], k[0][2]];
+  for (let i = 1; i < k.length; i++) if (s <= k[i][0]) { const a = k[i - 1], b = k[i], u = (s - a[0]) / (b[0] - a[0]); return [lerp(a[1], b[1], u), lerp(a[2], b[2], u)]; }
+  const z = k[k.length - 1]; return [z[1], z[2]];
+}
+function ballAt(sc, s) {
+  const k = SC[sc].ball;
+  if (s <= k[0][0]) return [k[0][1], k[0][2], k[0][3]];
+  for (let i = 1; i < k.length; i++) if (s <= k[i][0]) {
+    const a = k[i - 1], b = k[i], u = (s - a[0]) / (b[0] - a[0]);
+    return [lerp(a[1], b[1], u), lerp(a[2], b[2], u), lerp(a[3], b[3], u) + 4 * (b[4] || 0) * u * (1 - u)];
+  }
+  const z = k[k.length - 1]; return [z[1], z[2], z[3]];
+}
+const player = (sc, id) => SC[sc].p.find(p => p.id === id);
+const pos = (sc, id, s) => track(player(sc, id).k, s);
+
+// ——— Camera: main broadcast camera high on the halfway line, panning and zooming with play ———
+const CAMPOS = [52.5, -40, 27];
+function camFor(sc, s) {
+  let tx = 0, ty = 0;
+  for (let i = 0; i < 6; i++) { const b = ballAt(sc, s - i * .12); tx += b[0]; ty += b[1]; }
+  tx /= 6; ty /= 6;
+  tx = clamp(tx, 72, 98.5); ty = clamp(ty * .55 + 34 * .45, 22, 44);
+  let f;
+  if (sc === 'c') f = lerp(2700, 3150, eio(seg(s, 2.6, 4.4)));
+  else f = lerp(3000, 4300, eio(seg(s, .8, 2.4)));
+  return mkCam(CAMPOS, [tx, ty, 0], f);
+}
+function mkCam(c, t, f) {
+  const fw = norm3([t[0] - c[0], t[1] - c[1], t[2] - c[2]]);
+  const rt = norm3([fw[1], -fw[0], 0]);
+  const up = [rt[1] * fw[2] - rt[2] * fw[1], rt[2] * fw[0] - rt[0] * fw[2], rt[0] * fw[1] - rt[1] * fw[0]];
+  return { c, fw, rt, up, f };
+}
+function norm3(v) { const l = Math.hypot(v[0], v[1], v[2]); return [v[0] / l, v[1] / l, v[2] / l]; }
+let CAM = null, FLAT = 0;
+const BX = 1100, BY = 120, BS = 12.35;           // top-down board: half pitch x 52.5–105 → screen
+const board = (x, y) => [BX + (x - 52.5) * BS, BY + (68 - y) * BS];
+function P(x, y, z = 0) {
+  const d = [x - CAM.c[0], y - CAM.c[1], z - CAM.c[2]];
+  const zc = d[0] * CAM.fw[0] + d[1] * CAM.fw[1] + d[2] * CAM.fw[2];
+  const xc = d[0] * CAM.rt[0] + d[1] * CAM.rt[1] + d[2] * CAM.rt[2];
+  const yc = d[0] * CAM.up[0] + d[1] * CAM.up[1] + d[2] * CAM.up[2];
+  let sx = W / 2 + CAM.f * xc / zc, sy = H / 2 - CAM.f * yc / zc, s = CAM.f / zc;
+  if (FLAT > 0) { const b = board(x, y); sx = lerp(sx, b[0], FLAT); sy = lerp(sy, b[1] - z * BS * .0, FLAT); s = lerp(s, BS, FLAT); }
+  return [sx, sy, s, zc];
+}
+
+// ——— Drawing the stadium ———
+function mixHex(a, b, k) {
+  const pa = [1, 3, 5].map(i => parseInt(a.substr(i, 2), 16)), pb = [1, 3, 5].map(i => parseInt(b.substr(i, 2), 16));
+  return `rgb(${pa.map((v, i) => Math.round(lerp(v, pb[i], k))).join(',')})`;
+}
+function quad(g, pts, n = 8) {     // subdivided ground polygon so it bends correctly during the flatten
+  g.beginPath();
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[i], b = pts[(i + 1) % pts.length];
+    for (let j = 0; j < n; j++) { const u = j / n; const p = P(lerp(a[0], b[0], u), lerp(a[1], b[1], u), lerp(a[2] || 0, b[2] || 0, u)); j === 0 && i === 0 ? g.moveTo(p[0], p[1]) : g.lineTo(p[0], p[1]); }
+  }
+  g.closePath();
+}
+const CROWD = [];
+(function () {
+  for (let i = 0; i < 7000; i++) { const x = -12 + hash(i * 3.1) * 130, y = 74 + hash(i * 7.7) * 42; CROWD.push([x, y, 1.6 + (y - 74) * .62, i]); }
+  for (let i = 0; i < 3200; i++) { const x = 113 + hash(i * 5.3 + 9) * 34, y = -14 + hash(i * 2.9 + 4) * 96; CROWD.push([x, y, 1.6 + (x - 113) * .62, i + 9000]); }
+})();
+const CROWDCOL = ['#3a3f4a', '#5b5f68', '#8a8d93', '#b8312f', '#d6403a', '#9fd3f2', '#e9eef2', '#2c3340', '#6b4b3a', '#c9a27a'];
+function lineSeg(g, a, b, n = 10) { for (let j = 0; j <= n; j++) { const u = j / n; const p = P(lerp(a[0], b[0], u), lerp(a[1], b[1], u)); j ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1]); } }
+function arcG(g, cx, cy, r, a0, a1, n = 32) { for (let j = 0; j <= n; j++) { const a = lerp(a0, a1, j / n); const p = P(cx + r * Math.cos(a), cy + r * Math.sin(a)); j ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1]); } }
+function pitchLines(g) {
+  g.beginPath();
+  lineSeg(g, [0, 0], [105, 0], 24); lineSeg(g, [105, 0], [105, 68], 16); lineSeg(g, [105, 68], [0, 68], 24); lineSeg(g, [0, 68], [0, 0], 16);
+  lineSeg(g, [52.5, 0], [52.5, 68], 16);
+  arcG(g, 52.5, 34, 9.15, 0, Math.PI * 2, 48);
+  for (const side of [0, 1]) {
+    const gx = side ? 105 : 0, dir = side ? -1 : 1;
+    lineSeg(g, [gx, 13.84], [gx + dir * 16.5, 13.84]); lineSeg(g, [gx + dir * 16.5, 13.84], [gx + dir * 16.5, 54.16], 14); lineSeg(g, [gx + dir * 16.5, 54.16], [gx, 54.16]);
+    lineSeg(g, [gx, 24.84], [gx + dir * 5.5, 24.84], 4); lineSeg(g, [gx + dir * 5.5, 24.84], [gx + dir * 5.5, 43.16], 8); lineSeg(g, [gx + dir * 5.5, 43.16], [gx, 43.16], 4);
+    const sx = gx + dir * 11, a = Math.acos(5.5 / 9.15);
+    side ? arcG(g, sx, 34, 9.15, Math.PI - a, Math.PI + a, 20) : arcG(g, sx, 34, 9.15, -a, a, 20);
+  }
+}
+function drawStadium(g, s) {
+  const k = FLAT;
+  g.fillStyle = mixHex('#11151c', COL.board, k); g.fillRect(0, 0, W, H);
+  if (k > 0) { g.save(); g.beginPath(); g.rect(lerp(0, BX - 40, k), 0, W, H); g.clip(); }
+  // stands (fade out as the picture becomes the board)
+  if (k < 1) {
+    g.save(); g.globalAlpha = 1 - k;
+    g.fillStyle = '#171b23'; quad(g, [[-12, 72, 0], [118, 72, 0], [118, 118, 28.5], [-12, 118, 28.5]]); g.fill();
+    quad(g, [[110, -16, 0], [110, 84, 0], [148, 84, 23.5], [148, -16, 23.5]]); g.fill();
+    for (const q of CROWD) {
+      const p = P(q[0], q[1], q[2]); if (p[0] < -10 || p[0] > W + 10 || p[1] < -10 || p[1] > H + 10) continue;
+      const r = Math.max(1.2, .34 * p[2]); g.fillStyle = CROWDCOL[Math.floor(hash(q[3] * 1.37) * CROWDCOL.length)];
+      const bob = Math.sin(s * 6 + q[3]) * .15 * p[2] * (hash(q[3]) > .7 ? 1 : 0);
+      g.fillRect(p[0] - r / 2, p[1] - r + bob, r, r * 1.25);
+    }
+    // perimeter boards, deliberately blank
+    g.fillStyle = '#0f2340'; quad(g, [[-12, 70.4, 0], [116, 70.4, 0], [116, 70.4, .9], [-12, 70.4, .9]], 12); g.fill();
+    quad(g, [[109.5, -12, 0], [109.5, 80, 0], [109.5, 80, .9], [109.5, -12, .9]], 12); g.fill();
+    g.strokeStyle = 'rgba(120,170,230,0.35)'; g.lineWidth = 1.5; g.beginPath(); lineSeg(g, [-12, 70.4], [116, 70.4], 20); g.stroke();
+    g.restore();
+  }
+  // grass with mowing bands
+  g.fillStyle = mixHex('#2f7a35', COL.board, k); quad(g, [[-6, -8], [109.5, -8], [109.5, 70.4], [-6, 70.4]], 16); g.fill();
+  for (let i = 0; i < 20; i++) {
+    const x0 = i * 5.25; g.fillStyle = mixHex(i % 2 ? '#2a7031' : '#358a3c', COL.board, k);
+    quad(g, [[x0, 0], [x0 + 5.25, 0], [x0 + 5.25, 68], [x0, 68]], 8); g.fill();
+  }
+  // board grid fades in
+  if (k > 0) {
+    g.save(); g.globalAlpha = k * .5; g.strokeStyle = 'rgba(244,241,232,0.08)'; g.lineWidth = 1;
+    for (let x = 0; x <= W; x += 60) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, H); g.stroke(); }
+    for (let y = 0; y <= H; y += 60) { g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke(); }
+    g.restore();
+  }
+  // pitch lines
+  const mid = P(95, 34);
+  g.strokeStyle = k > 0 ? `rgba(244,241,232,${lerp(.88, .75, k)})` : 'rgba(240,244,236,0.88)';
+  g.lineWidth = lerp(Math.max(1.4, .13 * mid[2]), 2.4, k); g.lineJoin = 'round';
+  pitchLines(g); g.stroke();
+  if (k > 0) g.restore();
+  const sp = P(94, 34); g.fillStyle = g.strokeStyle; g.beginPath(); g.ellipse(sp[0], sp[1], lerp(.12 * sp[2], 4, k), lerp(.05 * sp[2], 4, k), 0, 0, 7); g.fill();
+}
+function drawGoal(g, a = 1) {
+  if (a <= 0) return;
+  g.save(); g.globalAlpha = a;
+  const y0 = 30.34, y1 = 37.66, h = 2.44, d = 2.2;
+  g.strokeStyle = 'rgba(235,240,245,0.55)'; g.lineWidth = 1;
+  for (let i = 0; i <= 10; i++) { const y = lerp(y0, y1, i / 10); const a1 = P(105, y, h), b1 = P(105 + d, y, h * .75), c1 = P(105 + d, y, 0); g.beginPath(); g.moveTo(a1[0], a1[1]); g.lineTo(b1[0], b1[1]); g.lineTo(c1[0], c1[1]); g.stroke(); }
+  for (let j = 0; j <= 5; j++) { const z = h * j / 5; g.beginPath(); for (const y of [y0, y1]) { } const p1 = P(105 + d * (z / h > .9 ? .9 : 1), y0, z * .75 + 0), p2 = P(105 + d, y1, z * .75); g.moveTo(p1[0], p1[1]); g.lineTo(p2[0], p2[1]); g.stroke(); }
+  const s = P(105, y0, h)[2];
+  g.strokeStyle = '#f4f6f8'; g.lineWidth = Math.max(2, .12 * s); g.lineCap = 'round';
+  const A = P(105, y0, 0), B = P(105, y0, h), Cc = P(105, y1, h), D = P(105, y1, 0);
+  g.beginPath(); g.moveTo(A[0], A[1]); g.lineTo(B[0], B[1]); g.lineTo(Cc[0], Cc[1]); g.lineTo(D[0], D[1]); g.stroke();
+  g.restore();
+}
+function speedAt(sc, id, s) { const a = pos(sc, id, s - .05), b = pos(sc, id, s + .05); return Math.hypot(b[0] - a[0], b[1] - a[1]) / .1; }
+function drawPlayer(g, sc, pl, s, a = 1) {
+  const [x, y] = track(pl.k, s); const F = P(x, y, 0), Hd = P(x, y, 1.85);
+  const h = F[1] - Hd[1]; if (h < 2) return;
+  const kit = KIT[pl.team], w = h * .27, hs = hash(pl.id.charCodeAt(0) * 7 + pl.id.length + (sc === 'g' ? 1 : 2));
+  const v = speedAt(sc, pl.id, s), amp = clamp(v / 6, .1, 1), ph = s * 10.5 + hs * 6;
+  let lean = 0;
+  if (pl.dive) { const [d0, d1, dir] = pl.dive; lean = dir * 1.25 * eo(seg(s, d0, d1)); }
+  g.save(); g.globalAlpha = a;
+  g.fillStyle = 'rgba(0,0,0,0.33)'; g.beginPath(); g.ellipse(F[0] + w * .3, F[1], w * (1 + Math.abs(lean)), w * .28, 0, 0, 7); g.fill();
+  g.translate(F[0], F[1]); g.rotate(lean); g.lineCap = 'round';
+  const hip = -h * .48, sw = Math.sin(ph) * amp * w * .55;
+  g.strokeStyle = kit.socks; g.lineWidth = w * .3;
+  g.beginPath(); g.moveTo(-w * .18, hip); g.lineTo(-w * .18 + sw, 0); g.stroke();
+  g.beginPath(); g.moveTo(w * .18, hip); g.lineTo(w * .18 - sw, 0); g.stroke();
+  g.strokeStyle = '#d9b48f'; g.lineWidth = w * .22;
+  g.beginPath(); g.moveTo(-w * .18, hip); g.lineTo(-w * .18 + sw * .6, hip * .45); g.stroke();
+  g.beginPath(); g.moveTo(w * .18, hip); g.lineTo(w * .18 - sw * .6, hip * .45); g.stroke();
+  // arms
+  const ash = Math.sin(ph + Math.PI) * amp * w * .5;
+  g.strokeStyle = pl.team === 'gk' ? kit.shirt : (pl.team === 'arg' ? kit.shirt : kit.shirt); g.lineWidth = w * .24;
+  const armUp = pl.dive ? eo(seg(s, pl.dive[0], pl.dive[1])) : 0;
+  g.beginPath(); g.moveTo(-w * .42, -h * .76); g.lineTo(-w * .55 + ash - armUp * w * .2, -h * (.5 + armUp * .45)); g.stroke();
+  g.beginPath(); g.moveTo(w * .42, -h * .76); g.lineTo(w * .55 - ash + armUp * w * .2, -h * (.5 + armUp * .45)); g.stroke();
+  if (pl.team === 'gk') { g.fillStyle = kit.glove; for (const sx of [-1, 1]) { g.beginPath(); g.arc(sx * (w * .55 - (sx > 0 ? ash : -ash) * 0) + (sx < 0 ? ash : -ash) - sx * armUp * w * .2 * -1, -h * (.5 + armUp * .45), w * .14, 0, 7); g.fill(); } }
+  // shorts + shirt
+  g.fillStyle = kit.shorts; g.fillRect(-w * .42, hip - h * .02, w * .84, h * .14);
+  g.fillStyle = kit.shirt; rr(g, -w * .5, -h * .8, w, h * .34, w * .18); g.fill();
+  if (kit.stripe) { g.save(); rr(g, -w * .5, -h * .8, w, h * .34, w * .18); g.clip(); g.fillStyle = kit.stripe; for (const sx of [-.3, .05]) g.fillRect(sx * w, -h * .8, w * .2, h * .34); g.restore(); }
+  g.fillStyle = ['#c48e66', '#8d5a3b', '#e0b48e', '#a8714f'][Math.floor(hs * 4)];
+  g.beginPath(); g.arc(0, -h * .885, h * .075, 0, 7); g.fill();
+  g.fillStyle = 'rgba(25,18,14,0.85)'; g.beginPath(); g.arc(0, -h * .9, h * .072, Math.PI * 1.05, Math.PI * 1.95); g.fill();
+  g.restore();
+}
+function rr(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+function drawBall(g, sc, s) {
+  const b = ballAt(sc, s); const p = P(b[0], b[1], b[2]), sh = P(b[0], b[1], 0);
+  const r = Math.max(4, .11 * p[2] * 1.6);
+  g.fillStyle = 'rgba(0,0,0,0.35)'; g.beginPath(); g.ellipse(sh[0], sh[1], r * 1.1, r * .4, 0, 0, 7); g.fill();
+  g.fillStyle = '#fafafa'; g.beginPath(); g.arc(p[0], p[1] - r * .6, r, 0, 7); g.fill();
+  g.fillStyle = '#2a2a2a'; g.beginPath(); g.arc(p[0] + r * .2 * Math.sin(s * 20), p[1] - r * .6, r * .35, 0, 7); g.fill();
+}
+function drawScene(g, sc, s, pa = 1) {
+  drawStadium(g, s);
+  const ps = SC[sc].p.map(pl => { const q = track(pl.k, s); return { pl, d: P(q[0], q[1])[3] }; }).sort((a, b) => b.d - a.d);
+  if (pa > 0) {
+    // goal drawn behind players that stand in front of it
+    drawGoal(g, pa);
+    for (const o of ps) drawPlayer(g, sc, o.pl, s, pa);
+    drawBall(g, sc, s);
+  }
+}
+
+// ——— Telestrator overlays (drawn on X, in the same transform as the picture) ———
+function partial(pts, k) {
+  if (k >= 1) return pts; let L = 0; const ds = [];
+  for (let i = 1; i < pts.length; i++) { const d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); ds.push(d); L += d; }
+  let target = L * k, out = [pts[0]];
+  for (let i = 1; i < pts.length; i++) {
+    if (target >= ds[i - 1]) { out.push(pts[i]); target -= ds[i - 1]; }
+    else { const u = target / ds[i - 1]; out.push([lerp(pts[i - 1][0], pts[i][0], u), lerp(pts[i - 1][1], pts[i][1], u)]); break; }
+  }
+  return out;
+}
+function path(p) { X.beginPath(); p.forEach((q, i) => i ? X.lineTo(q[0], q[1]) : X.moveTo(q[0], q[1])); }
+function wob(pts, seed) { return pts.map((q, i) => [q[0] + (hash(seed + i * 1.7) - .5) * 3, q[1] + (hash(seed + i * 2.3 + 5) - .5) * 3]); }
+function marker(pts, k, col, w = 9, o = {}) {
+  if (k <= 0) return;
+  const p = partial(wob(pts, o.seed || 1), k); if (p.length < 2) return;
+  X.save(); X.lineCap = 'round'; X.lineJoin = 'round';
+  if (o.dash) X.setLineDash(o.dash);
+  path(p); X.strokeStyle = 'rgba(0,0,0,0.55)'; X.lineWidth = w + 6; X.stroke();
+  X.shadowColor = col; X.shadowBlur = 18; path(p); X.strokeStyle = col; X.lineWidth = w; X.stroke();
+  X.shadowBlur = 0; path(p); X.strokeStyle = 'rgba(255,255,255,0.55)'; X.lineWidth = Math.max(2, w * .28); X.stroke();
+  X.setLineDash([]);
+  if (o.arrow && k > .9) {
+    const a = p[p.length - 1], b = p[Math.max(0, p.length - 4)]; const ang = Math.atan2(a[1] - b[1], a[0] - b[0]); const s = w * 3.2 * eo(seg(k, .9, 1));
+    X.translate(a[0], a[1]); X.rotate(ang);
+    X.beginPath(); X.moveTo(s * .4, 0); X.lineTo(-s, -s * .62); X.lineTo(-s * .62, 0); X.lineTo(-s, s * .62); X.closePath();
+    X.lineWidth = 6; X.strokeStyle = 'rgba(0,0,0,0.55)'; X.stroke();
+    X.shadowColor = col; X.shadowBlur = 16; X.fillStyle = col; X.fill();
+  }
+  X.restore();
+}
+function ballPath(sc, a, b, n = 24) { const o = []; for (let i = 0; i <= n; i++) { const q = ballAt(sc, lerp(a, b, i / n)); const p = P(q[0], q[1], q[2]); o.push([p[0], p[1] - Math.max(4, .11 * p[2] * 1.6) * .6]); } return o; }
+function groundPath(pts, n = 12) { const o = []; for (let i = 0; i < pts.length - 1; i++) for (let j = 0; j < n; j++) { const u = j / n; const p = P(lerp(pts[i][0], pts[i + 1][0], u), lerp(pts[i][1], pts[i + 1][1], u)); o.push([p[0], p[1]]); } const z = pts[pts.length - 1], p = P(z[0], z[1]); o.push([p[0], p[1]]); return o; }
+function ring(x, y, col, k = 1, t = 0, o = {}) {   // ground-plane circle under a player's feet, in true perspective
+  if (k <= 0) return;
+  const r = o.r || 1.15, n = 40;
+  const pts = m => { const a = []; for (let i = 0; i <= n; i++) { const an = -Math.PI / 2 + Math.PI * 2 * i / n * m; const p = P(x + r * Math.cos(an) * (o.sc || 1), y + r * Math.sin(an) * (o.sc || 1)); a.push([p[0], p[1]]); } return a; };
+  X.save();
+  const c = P(x, y), h = P(x, y, 1.9);
+  if (o.beam) {
+    const top = h[1] - (c[1] - h[1]) * .4, half = (pts(1)[0][0] - c[0]);
+    const g = X.createLinearGradient(c[0], top, c[0], c[1]); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(1, col + '55');
+    const rx = Math.abs(P(x + r, y)[0] - c[0]) + 6;
+    X.globalAlpha = k * .9; X.fillStyle = g; X.beginPath(); X.moveTo(c[0] - rx * .55, top); X.lineTo(c[0] + rx * .55, top); X.lineTo(c[0] + rx, c[1]); X.lineTo(c[0] - rx, c[1]); X.closePath(); X.fill(); X.globalAlpha = 1;
+  }
+  const full = pts(1); path(full); X.fillStyle = col + '30'; X.globalAlpha = eo(k); X.fill(); X.globalAlpha = 1;
+  const pr = pts(eo(k)); path(pr); X.lineWidth = 11; X.strokeStyle = 'rgba(0,0,0,0.5)'; X.stroke();
+  X.shadowColor = col; X.shadowBlur = 16; X.lineWidth = 6; X.strokeStyle = col; X.stroke(); X.shadowBlur = 0;
+  // outer dashed ring rotating at ~60 px/s
+  const outer = []; for (let i = 0; i <= n; i++) { const an = Math.PI * 2 * i / n; const p = P(x + r * 1.32 * Math.cos(an), y + r * 1.32 * Math.sin(an)); outer.push([p[0], p[1]]); }
+  X.setLineDash([14, 12]); X.lineDashOffset = -t * 60; X.lineWidth = 3; X.strokeStyle = col; X.globalAlpha = .85 * k; path(outer); X.stroke();
+  X.restore();
+}
+function tag(x, y, text, col, k = 1, o = {}) {
+  if (k <= 0) return;
+  X.save();
+  const size = o.size || 40; X.font = `800 ${size}px Bar`; const tw = X.measureText(text).width;
+  const pad = size * .45, bw = 8, w = tw + pad * 2 + bw, h = size * 1.55;
+  const rev = eo(k);
+  X.beginPath(); X.rect(x, y, w * rev, h); X.clip();
+  X.fillStyle = COL.card; X.fillRect(x, y, w, h);
+  X.fillStyle = col; X.fillRect(x, y, bw, h);
+  X.fillStyle = '#fff'; X.textBaseline = 'middle'; X.fillText(text, x + bw + pad, y + h / 2 + 1);
+  X.restore();
+}
+function spotlight(cx, cy, rx, ry, k) {
+  if (k <= 0) return;
+  X.save(); X.beginPath(); X.rect(-200, -200, W + 400, H + 400); X.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+  X.fillStyle = `rgba(0,0,0,${.58 * k})`; X.fill('evenodd'); X.restore();
+}
+function comet(sc, s, len = .24) {
+  const pts = ballPath(sc, Math.max(3.05, s - len), s, 10);
+  for (let i = 1; i < pts.length; i++) { X.strokeStyle = `rgba(255,212,0,${i / pts.length * .9})`; X.lineWidth = 2 + 10 * i / pts.length; X.lineCap = 'round'; X.beginPath(); X.moveTo(pts[i - 1][0], pts[i - 1][1]); X.lineTo(pts[i][0], pts[i][1]); X.stroke(); }
+}
+
+// ——— Packaging ———
+function bug(mode) {
+  X.save();
+  X.fillStyle = '#080C0E'; X.fillRect(1452, 38, 428, 72);
+  X.fillStyle = COL.ink; X.fillRect(1452, 38, 236, 72);
+  X.fillStyle = '#0b0b0b'; X.font = 'italic 800 44px Cond'; X.textBaseline = 'middle'; X.fillText('CHALK TALK', 1468, 76);
+  const mc = mode === 'LIVE' ? '#FF3B30' : mode === 'REPLAY' ? COL.def : COL.ink;
+  X.font = '600 30px Cond'; X.letterSpacing = '3px'; X.fillStyle = mc;
+  if (mode === 'LIVE') { X.beginPath(); X.arc(1712, 75, 8, 0, 7); X.fill(); X.fillText('LIVE', 1730, 76); }
+  else X.fillText(mode, 1708, 76);
+  X.restore();
+}
+function scoreBar(home, away, minute, flipK, prevHome) {
+  X.save();
+  X.fillStyle = '#080C0E'; X.fillRect(1392, 926, 488, 70);
+  X.fillStyle = KIT.esp.shirt; X.fillRect(1392, 926, 10, 70);
+  X.fillStyle = KIT.arg.shirt; X.fillRect(1640, 926, 10, 70);
+  X.textBaseline = 'middle'; X.font = '600 34px Cond'; X.letterSpacing = '2px'; X.fillStyle = '#fff';
+  X.fillText('ESP', 1414, 962); X.fillText('ARG', 1662, 962); X.letterSpacing = '0px';
+  X.font = 'italic 800 50px Cond'; X.textAlign = 'center';
+  // home digit with roll
+  X.save(); X.beginPath(); X.rect(1480, 930, 50, 62); X.clip();
+  if (flipK > 0 && flipK < 1) {
+    const u = eo(flipK); X.fillText(String(prevHome), 1505, 962 - u * 60); X.fillStyle = COL.ink; X.fillText(String(home), 1505, 962 + (1 - u) * 60);
+  } else { X.fillStyle = flipK >= 1 && flipK < 2 ? COL.ink : '#fff'; X.fillText(String(home), 1505, 962); }
+  X.restore();
+  X.fillStyle = '#fff'; X.fillText('–', 1560, 962); X.fillText(String(away), 1612, 962);
+  X.fillStyle = '#1b2228'; X.fillRect(1752, 926, 128, 70);
+  X.fillStyle = COL.ink; X.font = 'italic 800 40px Cond'; X.fillText(minute, 1816, 962);
+  if (flipK > 0 && flipK < 1) { X.fillStyle = `rgba(255,212,0,${.55 * (1 - flipK)})`; X.fillRect(1392, 926, 488, 70); }
+  X.restore();
+}
+function clockTag(sym) {
+  X.save(); X.fillStyle = COL.card; X.fillRect(40, 38, 380, 52);
+  X.fillStyle = COL.ink; X.fillRect(40, 38, 6, 52);
+  X.font = '500 24px Mono'; X.fillStyle = '#e8e6df'; X.textBaseline = 'middle';
+  X.fillText((sym ? sym + '  ' : '') + 'RECONSTRUCTION', 60, 65); X.restore();
+}
+function wipe(t) {
+  for (const c of TL.wipes) {
+    const p = (t - (c - .17)) / .34; if (p <= 0 || p >= 1) continue;
+    const cx = lerp(-700, W + 700, eio(p)), sl = 260, bw = 560;
+    X.save(); X.beginPath(); X.moveTo(cx - bw / 2 + sl, 0); X.lineTo(cx + bw / 2 + sl, 0); X.lineTo(cx + bw / 2 - sl, H); X.lineTo(cx - bw / 2 - sl, H); X.closePath();
+    X.fillStyle = COL.ink; X.fill(); X.lineWidth = 26; X.strokeStyle = '#101418'; X.stroke(); X.restore();
+  }
+}
+function subtitle(t) {
+  if (NOSUB) return;
+  const vo = TL.vo;
+  for (let i = 0; i < vo.length; i++) {
+    const v = vo[i]; let t1 = v.t + (VD[v.id] || 2.5) + .45; if (i + 1 < vo.length) t1 = Math.min(t1, vo[i + 1].t - .08);
+    if (t < v.t || t >= t1) continue;
+    X.save(); X.font = '600 38px Bar'; const w = X.measureText(v.text).width + 64;
+    const a = clamp((t - v.t) / .12) * clamp((t1 - t) / .12);
+    X.globalAlpha = a; X.fillStyle = 'rgba(0,0,0,0.64)'; X.fillRect(880 - w / 2, 950, w, 76);
+    X.fillStyle = COL.ink; X.fillRect(880 - w / 2, 950, w, 4);
+    X.fillStyle = '#fff'; X.textAlign = 'center'; X.textBaseline = 'middle'; X.fillText(v.text, 880, 990);
+    X.restore();
+  }
+}
+
+// ——— Freeze annotations (lt = seconds into the segment) ———
+const FX = {
+  open(lt, s, t) {        // the payoff first: strike frame
+    const T = pos('g', 'T', 3.05), c = P(T[0], T[1], .9);
+    spotlight(c[0] + 60, c[1] - 20, 330, 230, eo(seg(lt, .15, .45)));
+    ring(T[0], T[1], COL.ink, seg(lt, .3, .75), t, { beam: true });
+    marker(ballPath('g', 3.05, 3.35), seg(lt, .75, 1.3), COL.ink, 9, { arrow: true, seed: 3 });
+    const G = pos('g', 'GK', 3.05); ring(G[0], G[1], COL.def, seg(lt, 1.2, 1.6), t);
+    tag(150, 720, "106' · THE ONLY GOAL", COL.ink, seg(lt, 1.5, 1.9));
+  },
+  f93(lt, s, t) {
+    const Wp = pos('c', 'W', 4.4), Pp = pos('c', 'P', 3.4), G = pos('c', 'GK', 4.85);
+    ring(Pp[0], Pp[1], COL.ink, seg(lt, .2, .55), t, { r: .9 });
+    marker(ballPath('c', 3.4, 4.4), seg(lt, .4, 1.1), COL.ink, 8, { dash: [22, 16], arrow: true, seed: 7 });
+    ring(Wp[0], Wp[1], COL.ink, seg(lt, 1.0, 1.4), t, { beam: true });
+    marker(ballPath('c', 4.4, 4.85), seg(lt, 1.5, 1.9), COL.ink, 8, { arrow: true, seed: 9 });
+    ring(G[0], G[1], COL.def, seg(lt, 1.9, 2.3), t);
+    tag(140, 220, "93' · MARTÍNEZ SAVES", COL.def, seg(lt, 2.2, 2.6));
+  },
+  fz1(lt, s, t) {
+    const Wp = pos('g', 'W', 2.5), D1 = pos('g', 'D1', 2.5), Tp = pos('g', 'T', 2.95);
+    const c = P(Wp[0], Wp[1], 1);
+    spotlight(c[0] - 80, c[1] + 10, 420, 250, eo(seg(lt, .1, .4)));
+    ring(Wp[0], Wp[1], COL.ink, seg(lt, .3, .7), t, { beam: true });
+    ring(D1[0], D1[1], COL.def, seg(lt, .7, 1.0), t, { r: .9 });
+    marker(ballPath('g', 2.5, 2.95), seg(lt, 1.1, 1.8), COL.ink, 9, { dash: [22, 16], arrow: true, seed: 11 });
+    tag(160, 760, 'HEADED ACROSS, NOT AT GOAL', COL.ink, seg(lt, 1.8, 2.2));
+  },
+  fz2(lt, s, t) {
+    const Wp = pos('g', 'W', 2.75), Tp = pos('g', 'T', 2.75);
+    ring(Wp[0], Wp[1], COL.ink, seg(lt, .2, .55), t);
+    ring(Tp[0], Tp[1], COL.ink, seg(lt, .5, .85), t, { beam: true });
+    marker(groundPath([Wp, Tp]), seg(lt, .9, 1.4), COL.ink, 6, { seed: 13 });
+    const a = P(Wp[0], Wp[1], 2.2), b = P(Tp[0], Tp[1], 2.2);
+    tag(a[0] + 10, a[1] - 110, "WILLIAMS · ON 75'", COL.ink, seg(lt, 1.3, 1.6), { size: 30 });
+    tag(b[0] - 330, b[1] - 120, "TORRES · ON 62'", COL.ink, seg(lt, 1.5, 1.8), { size: 30 });
+    tag(160, 760, 'TWO SUBSTITUTES COMBINE', COL.ink, seg(lt, 1.9, 2.3));
+  },
+  fz3(lt, s, t) {
+    const Tp = pos('g', 'T', 3.05), G = pos('g', 'GK', 3.05); const c = P(Tp[0], Tp[1], .9), gc = P(104.5, 34, 1);
+    spotlight((c[0] + gc[0]) / 2, (c[1] + gc[1]) / 2, 420, 220, eo(seg(lt, .1, .4)));
+    ring(Tp[0], Tp[1], COL.ink, seg(lt, .2, .55), t, { beam: true });
+    ring(G[0], G[1], COL.def, seg(lt, .5, .8), t);
+    marker(ballPath('g', 3.05, 3.35), seg(lt, .9, 1.5), COL.ink, 10, { arrow: true, seed: 17 });
+    tag(160, 760, 'LEFT FOOT · CLOSE RANGE', COL.ink, seg(lt, 1.4, 1.8));
+  }
+};
+
+// ——— Board pages ———
+function boardOverlay(t, S) {
+  const k = FLAT;
+  // the two moves dropped onto the board
+  const bp = (sc, a, b, n = 20) => { const o = []; for (let i = 0; i <= n; i++) { const q = ballAt(sc, lerp(a, b, i / n)); o.push(board(q[0], q[1])); } return o; };
+  const fade = 1 - .7 * seg(t, S.card.t0, S.card.t0 + .5);
+  const a1 = seg(t, 35.0, 35.6), a2 = seg(t, 35.4, 36.1);
+  X.save(); X.globalAlpha = fade;
+  marker(bp('c', 3.4, 4.4), a1, 'rgba(255,212,0,0.6)', 6, { dash: [16, 12], seed: 21 });
+  marker(bp('c', 4.4, 4.9), a1, 'rgba(255,212,0,0.6)', 6, { arrow: true, seed: 22 });
+  if (a1 > .9) { const s93 = board(104.2, 36.0); X.strokeStyle = COL.def; X.lineWidth = 5; X.beginPath(); X.moveTo(s93[0] - 10, s93[1] - 10); X.lineTo(s93[0] + 10, s93[1] + 10); X.moveTo(s93[0] + 10, s93[1] - 10); X.lineTo(s93[0] - 10, s93[1] + 10); X.stroke(); }
+  marker(bp('g', 1.4, 2.5), a2, COL.ink, 7, { seed: 23 });
+  marker(bp('g', 2.5, 2.95), a2, COL.ink, 7, { seed: 24 });
+  marker(bp('g', 3.05, 3.35), a2, COL.ink, 9, { arrow: true, seed: 25 });
+  const dot = (x, y, lab, kk, col) => { if (kk <= 0) return; const p = board(x, y); const r = 22 * back(kk); X.fillStyle = col; X.beginPath(); X.arc(p[0], p[1], r, 0, 7); X.fill(); X.fillStyle = '#0b0b0b'; X.font = 'italic 800 22px Cond'; X.textAlign = 'center'; X.textBaseline = 'middle'; X.fillText(lab, p[0], p[1] + 1); X.textAlign = 'left'; };
+  dot(99.0, 31.0, '93', seg(t, 35.6, 35.9), 'rgba(255,212,0,0.7)');
+  dot(97.1, 34.3, '106', seg(t, 36.0, 36.3), COL.ink);
+  X.restore();
+}
+function rowsReveal(rows, t0, t) {
+  for (const r of rows) {
+    const k = eo(seg(t, t0 + r.d, t0 + r.d + .45)); if (k <= 0) continue;
+    const fs = parseInt(r.font.match(/(\d+)px/)[1]); X.save(); X.beginPath(); X.rect(r.x - 30, r.y - fs * 1.1, (r.w || 1000) * k + 40, fs * 1.1 + 70); X.clip();
+    X.fillStyle = r.col || COL.chalk; X.font = r.font; X.textBaseline = 'alphabetic'; X.fillText(r.text, r.x, r.y);
+    if (r.note) { X.fillStyle = '#8f9a96'; X.font = '600 26px Bar'; X.fillText(r.note, r.x, r.y + 40); }
+    X.restore();
+  }
+}
+const ROWS = {
+  flat: [
+    { d: 0, x: 120, y: 260, font: '800 62px Bar', text: 'SPAIN 1–0 ARGENTINA', w: 760 },
+    { d: .15, x: 120, y: 310, font: '600 30px Bar', text: 'after extra time · 19 July 2026', col: '#8f9a96', w: 600 },
+    { d: .5, x: 120, y: 470, font: 'italic 800 64px Cond', text: "93'", col: 'rgba(255,212,0,0.75)', w: 140 },
+    { d: .6, x: 240, y: 465, font: '800 38px Bar', text: 'Williams header, saved', w: 640 },
+    { d: .9, x: 120, y: 620, font: 'italic 800 64px Cond', text: "106'", col: COL.ink, w: 140 },
+    { d: 1.0, x: 240, y: 615, font: '800 38px Bar', text: 'Torres goal, left foot', w: 640 }
+  ],
+  card: [
+    { d: 0, x: 120, y: 230, font: '800 62px Bar', text: 'THE NUMBERS', w: 600 },
+    { d: .4, x: 120, y: 380, font: '800 40px Bar', text: 'Possession, Spain', w: 520 },
+    { d: .55, x: 700, y: 395, font: 'italic 800 110px Cond', text: '65%', col: COL.ink, w: 300 },
+    { d: 1.2, x: 120, y: 560, font: '800 40px Bar', text: 'Shots on target', w: 520 },
+    { d: 1.35, x: 700, y: 575, font: 'italic 800 110px Cond', text: '12–0', col: COL.ink, w: 300 },
+    { d: 2.2, x: 120, y: 740, font: '800 40px Bar', text: 'Argentina shots, 90 min', note: 'a first in a World Cup final', w: 560 },
+    { d: 2.35, x: 700, y: 755, font: 'italic 800 110px Cond', text: '0', col: COL.ink, w: 120 }
+  ],
+  end: [
+    { d: .1, x: 120, y: 430, font: 'italic 800 230px Cond', text: "106'", col: COL.ink, w: 520 },
+    { d: .5, x: 128, y: 540, font: '800 66px Bar', text: 'FERRAN TORRES', w: 700 },
+    { d: .9, x: 128, y: 620, font: '600 38px Bar', text: 'Spain · champions of the world', col: COL.chalk, w: 700 }
+  ]
+};
+function redCircle(cx, cy, k) {
+  if (k <= 0) return; const pts = []; for (let i = 0; i <= 50; i++) { const a = -2.2 + Math.PI * 2.15 * i / 50; pts.push([cx + 78 * Math.cos(a) * (1 + .05 * Math.sin(i)), cy + 70 * Math.sin(a)]); }
+  marker(pts, k, COL.space, 7, { seed: 31 });
+}
+
+// ——— Frame ———
+let TL, S = {}, VD = {};
+function segAt(t) { for (const s of TL.seg) if (t >= s.t0 && t < s.t1) return s; return TL.seg[TL.seg.length - 1]; }
+function simOf(sg, t) {
+  const u = (t - sg.t0) / (sg.t1 - sg.t0);
+  if (sg.type === 'rewind') return lerp(sg.s0, sg.s1, eio(u));
+  return lerp(sg.s0, sg.s1, u);
+}
+function homeScore(sg, s) { if (sg.type === 'board') return 1; return sg.scene === 'g' && s >= TL.goalSim ? 1 : 0; }
+function flipKAt(sg, t) {   // 0..1 during the roll, then 1..2 for the yellow afterglow
+  if (sg.scene !== 'g' || sg.type === 'rewind' || sg.type === 'freeze' || sg.type === 'board') return sg.type === 'board' ? 9 : 0;
+  if (!(sg.s0 < TL.goalSim && sg.s1 >= TL.goalSim)) return 0;
+  const tg = sg.t0 + (TL.goalSim - sg.s0) / (sg.s1 - sg.s0) * (sg.t1 - sg.t0);
+  return t < tg ? 0 : (t - tg) / .5;
+}
+async function render(t) {
+  const sg = segAt(t), lt = t - sg.t0;
+  const s = simOf(sg, t);
+  FLAT = 0;
+  if (sg.type === 'board') {
+    CAM = camFor('g', 4.45);
+    FLAT = eio(seg(t, S.flat.t0 + .1, S.flat.t0 + 1.6));
+    const pa = 1 - clamp(FLAT * 1.8);
+    drawScene(O, 'g', 4.45, pa);
+    X.drawImage(OFF, 0, 0);
+    if (FLAT >= 1 && t >= S.card.t0) { X.fillStyle = `rgba(12,20,17,${.55 * seg(t, S.card.t0, S.card.t0 + .5)})`; X.fillRect(BX - 40, 0, W - BX + 40, H); }
+    boardOverlay(t, S);
+    if (sg.id === 'flat') rowsReveal(ROWS.flat, 35.2, t);
+    if (sg.id === 'card') { rowsReveal(ROWS.card, sg.t0 + .2, t); redCircle(728, 718, seg(t, sg.t0 + 3.4, sg.t0 + 4.1)); }
+    if (sg.id === 'end') {
+      X.fillStyle = `rgba(12,20,17,${.88 * seg(t, sg.t0, sg.t0 + .4)})`; X.fillRect(0, 0, W, H);
+      rowsReveal(ROWS.end, sg.t0 + .2, t);
+    }
+    if (sg.id !== 'end') { X.save(); X.font = '500 18px Mono'; X.fillStyle = 'rgba(244,241,232,0.45)'; X.fillText('RECONSTRUCTION · POSITIONS ILLUSTRATIVE · STATS: PUBLISHED MATCH STATISTICS', 120, 1040 - 0); X.restore(); }
+    bug('ANALYSIS'); scoreBar(1, 0, 'FT', 9, 1);
+    wipe(t); subtitle(t);
+    return;
+  }
+  CAM = camFor(sg.scene, s);
+  drawScene(O, sg.scene, s);
+  X.save();
+  X.fillStyle = '#000'; X.fillRect(0, 0, W, H);
+  let sc = 1;
+  if (sg.type === 'freeze') sc = lerp(1.035, 1.0, eo(seg(lt, 0, .35))) + .012 * seg(lt, .35, sg.t1 - sg.t0);
+  if (sg.type === 'rewind') X.translate((hash(Math.floor(t * 30)) - .5) * 26, 0);
+  X.translate(W / 2, H / 2); X.scale(sc, sc); X.translate(-W / 2, -H / 2);
+  X.filter = sg.type === 'freeze' ? 'saturate(0.58) contrast(1.05) brightness(0.95)' : sg.type === 'live' ? 'saturate(0.92) contrast(1.04)' : 'saturate(0.8) contrast(1.04)';
+  X.drawImage(OFF, 0, 0); X.filter = 'none';
+  if (sg.type === 'freeze') { X.fillStyle = 'rgba(40,80,140,0.08)'; X.fillRect(0, 0, W, H); }
+  if (sg.type === 'freeze' && FX[sg.id]) FX[sg.id](lt, s, t);
+  if (sg.id === 'slow1' || sg.id === 'slow2') { const Tp = pos('g', 'T', s); ring(Tp[0], Tp[1], COL.ink, 1, t, { beam: true }); }
+  if (sg.id === 'flight') {
+    if (s < 3.5) comet('g', s);
+    const burst = seg(s, 3.35, 3.7); if (burst > 0 && burst < 1) { const g = P(105.6, 33.1, .9); X.save(); X.globalAlpha = 1 - burst; X.strokeStyle = COL.ink; X.lineWidth = 6; X.shadowColor = COL.ink; X.shadowBlur = 16; X.beginPath(); X.arc(g[0], g[1], 20 + 140 * eo(burst), 0, 7); X.stroke(); X.restore(); }
+  }
+  X.restore();
+  // vignette
+  const vg = X.createRadialGradient(W / 2, H / 2, H * .45, W / 2, H / 2, H * .95);
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, `rgba(0,0,0,${sg.type === 'freeze' ? .5 : .3})`); X.fillStyle = vg; X.fillRect(0, 0, W, H);
+  if (sg.type === 'freeze' && lt < .1) { X.fillStyle = `rgba(255,255,255,${.55 * (1 - lt / .1)})`; X.fillRect(0, 0, W, H); }
+  if (sg.type === 'rewind') {
+    X.save(); X.fillStyle = 'rgba(255,255,255,0.75)';
+    for (let i = 0; i < 4; i++) { const y = ((hash(i * 9.1) * H) + t * 900 * (1 + i * .3)) % H; X.fillRect(0, y, W, 3 + 4 * hash(i + Math.floor(t * 30))); }
+    X.font = 'italic 800 120px Cond'; X.fillStyle = '#fff'; X.shadowColor = 'rgba(0,0,0,0.6)'; X.shadowBlur = 20; X.fillText('◀◀ REWIND', 140, 560); X.restore();
+  }
+  const mode = sg.type === 'live' ? 'LIVE' : 'ANALYSIS';
+  bug(mode);
+  const fk = flipKAt(sg, t);
+  scoreBar(homeScore(sg, s), 0, sg.min, fk > 0 && fk < 2 ? fk : 0, 0);
+  clockTag(sg.type === 'freeze' ? '❚❚' : sg.type === 'slow' ? '▶ ½' : sg.type === 'rewind' ? '◀◀' : '');
+  wipe(t); subtitle(t);
+}
+window.TEXTS = t => {
+  const out = []; if (!TL) return out;
+  const add = (rows, t0) => { for (const r of rows) if (t >= t0 + r.d) out.push({ id: r.text, text: r.text + (r.note ? ' ' + r.note : ''), x0: r.x, y0: r.y - 60, x1: r.x + (r.w || 600), y1: r.y + 40 }); };
+  if (t >= 35.2 && t < S.flat.t1) add(ROWS.flat, 35.2);
+  if (t >= S.card.t0 && t < S.card.t1) add(ROWS.card, S.card.t0 + .2);
+  if (t >= S.end.t0) add(ROWS.end, S.end.t0 + .2);
+  return out;
+};
+(async () => {
+  TL = await (await fetch('timeline.json')).json();
+  for (const s of TL.seg) S[s.id] = s;
+  try { VD = await (await fetch('audio/vo/dur.json')).json(); } catch (e) { }
+  await document.fonts.load('800 40px Bar'); await document.fonts.load('600 38px Bar'); await document.fonts.load('italic 800 40px Cond');
+  await document.fonts.load('600 30px Cond'); await document.fonts.load('500 24px Mono');
+  window.DUR = TL.dur;
+  window.render = render;
+  window.READY = true;
+})();
+</script>
+</body></html>

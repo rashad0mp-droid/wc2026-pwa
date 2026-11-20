@@ -1,0 +1,14 @@
+105 Minutes of Knocking — a Sports Telestrator film (fictional show "Chalk Talk")
+
+An unofficial analysis of the 2026 World Cup final. Not made or endorsed by FIFA, the national federations, the players or any broadcaster.
+No match footage, photos or broadcast audio are used: the pitch, players, ball and crowd sound are drawn and synthesized in code,
+as a reconstruction from published match reports (positions illustrative). Facts and sources: FACTS.md.
+
+Fonts (SIL Open Font License 1.1, Google Fonts):
+  Barlow, Barlow Condensed — Jeremy Tribby
+  IBM Plex Mono — IBM Corp.
+Voice: Kokoro-82M TTS (Apache-2.0), voice "bm_george", via kokoro-onnx.
+Music samples:
+  Drums: "MuldjordKit" by Lars Muldjord (drumgizmo.org), FreePats version, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+  CC0: FreePats project (freepats.zenvoid.org); VS Chamber Orchestra: Community Edition and Versilian Community Sample Library (Versilian Studios)
+Sound effects and crowd: synthesized procedurally.
