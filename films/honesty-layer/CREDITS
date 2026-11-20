@@ -1,0 +1,7 @@
+THE HONESTY LAYER — a Sci-fi Hologram HUD short (original concept; not a real product)
+"An idea from My designed dream world"
+
+Picture, wireframes, HUD, score, foley and ambience: generated in code (Canvas 2D, numpy synthesis). No stock footage, photos or samples.
+HUD helper functions adapted from the Lemo-Opuscar library's hologram-hud engine (engine/hud.js).
+Fonts (SIL Open Font License 1.1, Google Fonts): Rajdhani (Indian Type Foundry); Share Tech Mono (Carrois Apostrophe). Licences in fonts/.
+Voice: Kokoro-82M TTS (Apache-2.0), voice "am_michael", via kokoro-onnx.

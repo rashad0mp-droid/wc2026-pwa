@@ -1,0 +1,9 @@
+[
+ {"id":"v1","text":"In twenty thirty-five, nobody can lie to you.","voice":"am_michael","speed":0.95,"lang":"en-us"},
+ {"id":"v2","text":"Your glasses read the tiny expressions that last less than half a second.","voice":"am_michael","speed":1.0,"lang":"en-us"},
+ {"id":"v3","text":"What someone says, and what their face means, side by side.","voice":"am_michael","speed":0.95,"lang":"en-us"},
+ {"id":"v4","text":"When everyone can see the truth, lying stops being worth it.","voice":"am_michael","speed":0.95,"lang":"en-us"},
+ {"id":"v5","text":"Not by force. Slowly. By habit.","voice":"am_michael","speed":0.9,"lang":"en-us"},
+ {"id":"v6","text":"But the first face it learns to read is yours.","voice":"am_michael","speed":0.9,"lang":"en-us"},
+ {"id":"v7","text":"Would you wear them?","voice":"am_michael","speed":0.9,"lang":"en-us"}
+]

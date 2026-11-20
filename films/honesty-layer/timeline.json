@@ -1,0 +1,92 @@
+{
+ "dur": 45.0,
+ "fps": 30,
+ "sub": [
+  {
+   "id": "v1",
+   "t": 0.6,
+   "t1": 4.253,
+   "text": "In 2035, nobody can lie to you.",
+   "speaker": "vo"
+  },
+  {
+   "id": "man",
+   "t": 4.4,
+   "t1": 6.9,
+   "text": "“Trust me, the deal is fair.”",
+   "speaker": "man"
+  },
+  {
+   "id": "v2",
+   "t": 7.1,
+   "t1": 12.034,
+   "text": "Your glasses read the tiny expressions that last less than half a second.",
+   "speaker": "vo"
+  },
+  {
+   "id": "v3",
+   "t": 13.7,
+   "t1": 18.061,
+   "text": "What someone says, and what their face means, side by side.",
+   "speaker": "vo"
+  },
+  {
+   "id": "v4",
+   "t": 21.7,
+   "t1": 25.999,
+   "text": "When everyone can see the truth, lying stops being worth it.",
+   "speaker": "vo"
+  },
+  {
+   "id": "v5",
+   "t": 26.4,
+   "t1": 29.456,
+   "text": "Not by force. Slowly. By habit.",
+   "speaker": "vo"
+  },
+  {
+   "id": "v6",
+   "t": 32.2,
+   "t1": 35.775,
+   "text": "But the first face it learns to read is yours.",
+   "speaker": "vo"
+  },
+  {
+   "id": "v7",
+   "t": 42.4,
+   "t1": 44.2,
+   "text": "Would you wear them?",
+   "speaker": "vo"
+  }
+ ],
+ "vo": [
+  {
+   "id": "v1",
+   "t": 0.6
+  },
+  {
+   "id": "v2",
+   "t": 7.1
+  },
+  {
+   "id": "v3",
+   "t": 13.7
+  },
+  {
+   "id": "v4",
+   "t": 21.7
+  },
+  {
+   "id": "v5",
+   "t": 26.4
+  },
+  {
+   "id": "v6",
+   "t": 32.2
+  },
+  {
+   "id": "v7",
+   "t": 42.4
+  }
+ ]
+}
